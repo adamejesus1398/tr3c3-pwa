@@ -3250,6 +3250,39 @@
             }
         }
 
+        // AFIMACIONES (Interior)
+        var AFFIRMATIONS = [
+            "Soy un padre presente, un emprendedor imparable y un hombre que crece cada día.",
+            "No persigo el dinero, atraigo la riqueza convirtiéndome en la persona que la merece.",
+            "Mi paz interior es mi activo más valioso. Nada externo tiene poder sobre ella.",
+            "Acepto lo que no puedo controlar y actúo con fuerza sobre lo que sí.",
+            "Hoy elijo la disciplina sobre la comodidad.",
+            "Soy el arquitecto de mi destino; cada decisión construye mi futuro.",
+            "Mi capacidad de aprender es infinita. No hay obstáculo que no pueda superar.",
+            "Doy gracias por este nuevo día. Es una oportunidad para ser mejor.",
+            "Confío en mi proceso. Los resultados llegarán."
+        ];
+        var affIdx = 0;
+
+        function loadDailyAff() {
+            if (!document.getElementById('aff-text')) return;
+            affIdx = NOW.getDate() % AFFIRMATIONS.length;
+            document.getElementById('aff-text').textContent = '"' + AFFIRMATIONS[affIdx] + '"';
+        }
+
+        function nextAff() {
+            affIdx = (affIdx + 1) % AFFIRMATIONS.length;
+            var el = document.getElementById('aff-text');
+            if (el) {
+                el.style.opacity = 0;
+                setTimeout(function () {
+                    el.textContent = '"' + AFFIRMATIONS[affIdx] + '"';
+                    el.style.opacity = 1;
+                }, 200);
+            }
+        }
+        loadDailyAff();
+
         window.addEventListener('load', loadData);
     </script>
 </body>
