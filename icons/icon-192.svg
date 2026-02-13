@@ -1,0 +1,15 @@
+<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="192" height="192" fill="#000000"/>
+  <g transform="translate(33, 68) scale(0.375)">
+    <line x1="10" y1="20" x2="70" y2="20" stroke="#f5f0e8" stroke-width="14" stroke-linecap="square"/>
+    <line x1="40" y1="20" x2="40" y2="130" stroke="#f5f0e8" stroke-width="14" stroke-linecap="square"/>
+    <line x1="100" y1="20" x2="100" y2="130" stroke="#f5f0e8" stroke-width="14" stroke-linecap="square"/>
+    <path d="M100 20 L150 20 L150 75 L100 75" stroke="#f5f0e8" stroke-width="14" fill="none" stroke-linecap="square" stroke-linejoin="miter"/>
+    <line x1="135" y1="75" x2="155" y2="130" stroke="#f5f0e8" stroke-width="14" stroke-linecap="square"/>
+    <path d="M180 20 L240 20 L240 75 L180 75" stroke="#f5c400" stroke-width="14" fill="none" stroke-linecap="square" stroke-linejoin="miter"/>
+    <path d="M180 130 L240 130 L240 75" stroke="#f5c400" stroke-width="14" fill="none" stroke-linecap="square" stroke-linejoin="miter"/>
+    <path d="M280 20 L270 20 Q265 20 265 25 L265 125 Q265 130 270 130 L280 130" stroke="#f5f0e8" stroke-width="14" fill="none" stroke-linecap="square" stroke-linejoin="miter"/>
+    <path d="M310 20 L370 20 L370 75 L310 75" stroke="#f5c400" stroke-width="14" fill="none" stroke-linecap="square" stroke-linejoin="miter"/>
+    <path d="M310 130 L370 130 L370 75" stroke="#f5c400" stroke-width="14" fill="none" stroke-linecap="square" stroke-linejoin="miter"/>
+  </g>
+</svg>
