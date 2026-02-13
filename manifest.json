@@ -2,12 +2,12 @@
   "name": "TR3C3 OS - Sistema Personal",
   "short_name": "TR3C3",
   "description": "Sistema personal de productividad, hábitos, finanzas y crecimiento con IA",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#f5c400",
   "orientation": "portrait",
-  "scope": "/",
+  "scope": "./",
   "icons": [
     {
       "src": "icons/icon-192.png",
@@ -22,7 +22,11 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["productivity", "lifestyle", "education"],
+  "categories": [
+    "productivity",
+    "lifestyle",
+    "education"
+  ],
   "lang": "es",
   "dir": "ltr"
 }

@@ -1,12 +1,12 @@
 const CACHE_NAME = 'tr3c3-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/app.js',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  './',
+  './index.html',
+  './styles.css',
+  './app.js',
+  './manifest.json',
+  './icons/icon-192.png',
+  './icons/icon-512.png'
 ];
 
 // Install event - cache resources
@@ -48,24 +48,24 @@ self.addEventListener('fetch', event => {
         if (response) {
           return response;
         }
-        
+
         // Clone the request
         const fetchRequest = event.request.clone();
-        
+
         return fetch(fetchRequest).then(response => {
           // Check if valid response
           if (!response || response.status !== 200 || response.type !== 'basic') {
             return response;
           }
-          
+
           // Clone the response
           const responseToCache = response.clone();
-          
+
           caches.open(CACHE_NAME)
             .then(cache => {
               cache.put(event.request, responseToCache);
             });
-          
+
           return response;
         }).catch(() => {
           // Offline fallback for HTML requests
