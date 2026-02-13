@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -8,9 +8,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="TR3C3">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#f5c400">
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icons/icon-512.png">
     <title>TR3C3 OS</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
@@ -36,140 +35,54 @@
         }
 
         * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            height: 100%;
+            background: #000;
         }
 
         body {
-            background-color: var(--bg);
             color: var(--white);
             font-family: 'DM Sans', sans-serif;
-            font-size: 16px;
-            overscroll-behavior-y: none;
-            -webkit-font-smoothing: antialiased;
+            font-weight: 300;
+            height: 100%;
+            overflow: hidden;
         }
 
         #app {
             height: 100dvh;
+            display: flex;
+            flex-direction: column;
             max-width: 430px;
             margin: 0 auto;
-            overflow: hidden;
             position: relative;
+            background: var(--bg);
+            overflow: hidden;
         }
 
         .screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: calc(var(--nav-h) + var(--sab) + 12px);
-            background: var(--bg);
             display: none;
-            z-index: 10;
-            padding-top: calc(var(--sat) + 20px);
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: contain;
+            padding-bottom: calc(var(--nav-h) + var(--sab) + 12px);
         }
 
         .screen.active {
             display: block;
         }
 
-        /* TYPOGRAPHY */
-        h1,
-        h2,
-        h3,
-        .bebas {
-            font-family: 'Bebas Neue', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        ::-webkit-scrollbar {
+            display: none;
         }
 
-        .serif-italic {
-            font-family: 'DM Serif Display', serif;
-            font-style: italic;
-        }
-
-        /* COMPONENTS */
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px;
-            margin: 8px 14px;
-        }
-
-        .card-title {
-            font-family: 'Bebas Neue';
-            color: var(--muted);
-            font-size: 13px;
-            letter-spacing: 1.5px;
-            margin-bottom: 12px;
-        }
-
-        .btn {
-            background: var(--gold);
-            color: #000;
-            font-family: 'Bebas Neue';
-            font-size: 14px;
-            letter-spacing: 2px;
-            border-radius: 12px;
-            padding: 13px 18px;
-            width: 100%;
-            border: none;
-            outline: none;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-            opacity: 0.9;
-        }
-
-        .inp,
-        textarea.inp {
-            background: var(--bg2);
-            border: 1px solid var(--border2);
-            border-radius: 10px;
-            padding: 12px 14px;
-            color: var(--white);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 15px;
-            width: 100%;
-            outline: none;
-            -webkit-appearance: none;
-            display: block;
-        }
-
-        .inp:focus {
-            border-color: var(--gold);
-        }
-
-        .cpill {
-            border: 1px solid var(--border2);
-            border-radius: 20px;
-            padding: 6px 13px;
-            font-size: 9px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--muted);
-            background: none;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .cpill.active {
-            background: var(--gold);
-            color: #000;
-            border-color: var(--gold);
-            font-weight: bold;
-        }
-
-        /* NAVIGATION */
         nav {
             position: fixed;
             bottom: 0;
@@ -195,12 +108,12 @@
             flex-direction: column;
             align-items: center;
             gap: 3px;
+            padding: 2px 4px;
             border: none;
             background: none;
             cursor: pointer;
             flex: 1;
-            outline: none;
-            padding: 0;
+            min-width: 0;
         }
 
         .nav-icon {
@@ -213,6 +126,7 @@
             letter-spacing: .8px;
             text-transform: uppercase;
             color: var(--muted);
+            white-space: nowrap;
         }
 
         .nav-btn.active .nav-lbl {
@@ -223,129 +137,842 @@
             transform: translateY(-2px);
         }
 
-        /* HEADER & HERO */
         .page-header {
-            padding: 0 24px 20px;
+            padding: calc(var(--sat) + 14px) 18px 14px;
+            position: sticky;
+            top: 0;
+            background: rgba(0, 0, 0, 0.97);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 10;
+            border-bottom: 1px solid var(--border);
         }
 
         .page-tag {
-            font-size: 11px;
-            letter-spacing: 1px;
+            font-size: 8px;
+            letter-spacing: 4px;
             text-transform: uppercase;
             color: var(--gold);
-            font-weight: 500;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .page-title {
             font-family: 'Bebas Neue';
-            font-size: 42px;
-            line-height: 0.9;
-            color: var(--white);
+            font-size: 32px;
+            letter-spacing: 2px;
+            line-height: 1;
         }
 
         .page-sub {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+            font-style: italic;
+            font-family: 'DM Serif Display';
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            margin: 8px 14px;
+        }
+
+        .card-title {
+            font-family: 'Bebas Neue';
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .btn {
+            padding: 13px 18px;
+            border: none;
+            border-radius: 12px;
+            color: #000;
+            font-family: 'Bebas Neue';
+            font-size: 14px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
+            background: var(--gold);
+        }
+
+        .btn:active {
+            transform: scale(.97);
+        }
+
+        .btn-sm {
+            padding: 9px 16px;
+            font-size: 12px;
+            width: auto;
+            margin: 0;
+        }
+
+        .inp {
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: var(--white);
+            font-family: 'DM Sans';
+            font-size: 15px;
+            font-weight: 300;
+            outline: none;
+            width: 100%;
+            -webkit-appearance: none;
+        }
+
+        .inp:focus {
+            border-color: var(--gold);
+        }
+
+        .inp::placeholder {
+            color: var(--muted2);
+        }
+
+        textarea.inp {
+            resize: none;
+            line-height: 1.6;
+        }
+
+        .badge {
+            font-size: 7.5px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 2px 7px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .b-gold {
+            background: rgba(245, 196, 0, .1);
+            color: var(--gold2);
+            border: 1px solid rgba(245, 196, 0, .2);
+        }
+
+        .b-dark {
+            background: rgba(255, 255, 255, .05);
+            color: var(--muted);
+            border: 1px solid var(--border);
+        }
+
+        .prog-bar {
+            height: 3px;
+            background: var(--border2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .prog-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: var(--gold);
+            transition: width .6s ease;
+        }
+
+        .prog-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--muted);
+            margin-bottom: 3px;
+        }
+
+        /* HOME */
+        .home-hero {
+            padding: calc(var(--sat)+14px) 18px 12px;
+        }
+
+        .home-greeting {
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 3px;
+        }
+
+        .home-title {
+            font-family: 'Bebas Neue';
+            font-size: 38px;
+            letter-spacing: 2px;
+            line-height: 1;
+        }
+
+        .home-title span {
+            color: var(--gold);
+        }
+
+        .home-quote {
             font-family: 'DM Serif Display';
             font-style: italic;
+            font-size: 13px;
             color: var(--muted);
-            margin-top: 8px;
+            margin-top: 5px;
+            line-height: 1.5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 7px;
+            margin: 0 14px 8px;
+        }
+
+        .stat-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 13px 10px;
+            text-align: center;
+        }
+
+        .stat-num {
+            font-family: 'Bebas Neue';
+            font-size: 28px;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .stat-lbl {
+            font-size: 7.5px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .motivator {
+            margin: 4px 14px;
+            background: rgba(245, 196, 0, .05);
+            border: 1px solid rgba(245, 196, 0, .15);
+            border-radius: 14px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .motivator-emoji {
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .motivator-text {
+            font-family: 'DM Serif Display';
+            font-style: italic;
+            font-size: 13px;
+            color: var(--white);
+            line-height: 1.5;
+            transition: opacity .3s;
+        }
+
+        .today-block {
+            display: flex;
+            gap: 10px;
+            padding: 11px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .today-block:last-child {
+            border-bottom: none;
+        }
+
+        .tb-hour {
+            font-family: 'Bebas Neue';
+            font-size: 13px;
+            color: var(--muted2);
+            min-width: 46px;
+            padding-top: 2px;
+        }
+
+        .tb-name {
+            font-size: 13px;
+            font-weight: 400;
+            margin-bottom: 2px;
+        }
+
+        .tb-desc {
+            font-size: 11px;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        /* HÁBITOS */
+        .week-dots {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .wdot {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            color: var(--muted2);
+        }
+
+        .wdot.done {
+            background: var(--gold);
+            color: #000;
+            font-weight: 700;
+        }
+
+        .wdot.today {
+            border: 2px solid var(--gold);
+            color: var(--gold);
+        }
+
+        .hab-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .hab-item:last-child {
+            border-bottom: none;
+        }
+
+        .hab-chk {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 12px;
+            transition: all .3s;
+        }
+
+        .hab-item.done .hab-chk {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: #000;
+            font-weight: 700;
+        }
+
+        .hab-name {
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .hab-item.done .hab-name {
+            color: var(--muted);
+            text-decoration: line-through;
+        }
+
+        .hab-sub {
+            font-size: 11px;
+            color: var(--muted2);
+            margin-top: 1px;
+        }
+
+        .hab-streak {
+            font-family: 'Bebas Neue';
+            font-size: 12px;
+            color: var(--gold);
+        }
+
+        /* COACH */
+        .mode-pills {
+            display: flex;
+            gap: 6px;
+            padding: 10px 14px 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .mode-pills::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mpill {
+            padding: 6px 13px;
+            border-radius: 20px;
+            border: 1px solid var(--border2);
+            background: none;
+            color: var(--muted);
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            white-space: nowrap;
+            font-family: 'DM Sans';
+        }
+
+        .mpill.active {
+            border-color: var(--gold);
+            color: #000;
+            background: var(--gold);
+        }
+
+        .chat-layout {
+            display: flex;
+            flex-direction: column;
+            height: calc(100dvh - var(--nav-h) - var(--sab) - 140px);
+        }
+
+        .chat-msgs {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .chat-msgs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .msg {
+            max-width: 86%;
+        }
+
+        .msg.user {
+            align-self: flex-end;
+        }
+
+        .msg.ai {
+            align-self: flex-start;
+        }
+
+        .bubble {
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        .msg.user .bubble {
+            background: var(--gold);
+            color: #000;
+            border-bottom-right-radius: 4px;
+            font-weight: 400;
+        }
+
+        .msg.ai .bubble {
+            background: var(--card2);
+            color: var(--white);
+            border-bottom-left-radius: 4px;
+            border: 1px solid var(--border);
+        }
+
+        .msg-meta {
+            font-size: 9px;
+            color: var(--muted2);
+            margin-top: 2px;
+            padding: 0 3px;
+        }
+
+        .msg.user .msg-meta {
+            text-align: right;
+        }
+
+        .ai-label {
+            font-size: 8px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 3px;
+            padding-left: 3px;
+        }
+
+        .typing-ind {
+            display: none;
+            align-self: flex-start;
+            background: var(--card2);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            border-bottom-left-radius: 4px;
+            padding: 13px 16px;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .typing-ind.on {
+            display: flex;
+        }
+
+        .tdot {
+            width: 6px;
+            height: 6px;
+            background: var(--muted);
+            border-radius: 50%;
+            animation: tb 1.2s ease infinite;
+        }
+
+        .tdot:nth-child(2) {
+            animation-delay: .15s;
+        }
+
+        .tdot:nth-child(3) {
+            animation-delay: .3s;
+        }
+
+        @keyframes tb {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                opacity: .4
+            }
+
+            30% {
+                transform: translateY(-5px);
+                opacity: 1
+            }
+        }
+
+        .chat-bar {
+            padding: 10px 14px;
+            background: rgba(0, 0, 0, 0.98);
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+            flex-shrink: 0;
+        }
+
+        .chat-ta {
+            flex: 1;
+            background: var(--card);
+            border: 1px solid var(--border2);
+            border-radius: 22px;
+            padding: 11px 16px;
+            color: var(--white);
+            font-family: 'DM Sans';
             font-size: 15px;
+            font-weight: 300;
+            resize: none;
+            outline: none;
+            min-height: 44px;
+            max-height: 110px;
+            line-height: 1.5;
+            -webkit-appearance: none;
+            display: block;
+            width: 100%;
+        }
+
+        .chat-ta:focus {
+            border-color: var(--gold);
+        }
+
+        .chat-ta::placeholder {
+            color: var(--muted2);
+        }
+
+        .send-btn {
+            width: 44px;
+            height: 44px;
+            background: var(--gold);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            color: #000;
+            font-weight: 700;
+        }
+
+        .send-btn:active {
+            transform: scale(.9);
+        }
+
+        .api-box {
+            margin: 10px 14px 0;
+            background: var(--card);
+            border: 1px solid rgba(245, 196, 0, .2);
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .api-box-lbl {
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
         }
 
         /* FINANZAS */
         .fin-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin: 8px 14px;
-        }
-
-        .fin-wide {
-            grid-column: span 2;
+            gap: 7px;
+            margin: 12px 14px 0;
         }
 
         .fin-box {
             background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 12px;
+            border-radius: 13px;
+            padding: 14px 12px;
         }
 
         .fin-box-lbl {
-            font-size: 10px;
+            font-size: 8px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             color: var(--muted);
-            letter-spacing: 1px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .fin-box-val {
             font-family: 'Bebas Neue';
-            font-size: 24px;
-            color: var(--white);
-            margin-bottom: 4px;
+            font-size: 28px;
+            line-height: 1;
         }
 
-        .prog-bar {
-            height: 6px;
-            background: var(--border2);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 6px;
+        .fin-wide {
+            grid-column: 1/-1;
         }
 
-        .prog-fill {
-            height: 100%;
-            background: var(--gold);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .prog-label {
+        .tx-item {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            gap: 11px;
+            padding: 11px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tx-item:last-child {
+            border-bottom: none;
+        }
+
+        .tx-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .tx-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .tx-name {
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tx-date {
             font-size: 10px;
-            color: var(--muted);
+            color: var(--muted2);
+            margin-top: 1px;
+        }
+
+        .tx-amt {
+            font-family: 'Bebas Neue';
+            font-size: 18px;
+            white-space: nowrap;
+        }
+
+        .pos {
+            color: var(--green);
+        }
+
+        .neg {
+            color: var(--red);
         }
 
         .cat-pills {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            margin-bottom: 12px;
+            margin: 6px 0;
+        }
+
+        .cpill {
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border2);
+            background: none;
+            color: var(--muted);
+            font-size: 10px;
+            cursor: pointer;
+            font-family: 'DM Sans';
+        }
+
+        .cpill.active {
+            border-color: var(--gold);
+            color: #000;
+            background: var(--gold);
         }
 
         .mentor-tip {
-            background: var(--card2);
-            border-left: 2px solid var(--gold);
-            padding: 12px;
-            border-radius: 0 8px 8px 0;
+            background: rgba(245, 196, 0, .05);
+            border-left: 3px solid var(--gold);
+            border-radius: 0 10px 10px 0;
+            padding: 12px 14px;
             margin-bottom: 8px;
         }
 
         .mentor-tip-src {
             font-size: 9px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             color: var(--gold);
-            letter-spacing: 1px;
             margin-bottom: 4px;
         }
 
         .mentor-tip-text {
-            font-family: 'DM Serif Display';
-            font-style: italic;
+            font-size: 13px;
             color: var(--white);
-            font-size: 14px;
-            line-height: 1.4;
+            line-height: 1.6;
+            font-style: italic;
         }
 
         /* DIARIO */
-        .obj-item {
+        .d-tabs {
+            display: flex;
+            gap: 0;
+            margin: 12px 14px 0;
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .d-tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            font-family: 'Bebas Neue';
+            font-size: 13px;
+            letter-spacing: 2px;
+            cursor: pointer;
+        }
+
+        .d-tab.active {
+            background: var(--gold);
+            color: #000;
+        }
+
+        .d-tab.inactive {
+            background: var(--card);
+            color: var(--muted);
+        }
+
+        .mood-row {
+            display: flex;
+            gap: 7px;
+            margin: 6px 0;
+        }
+
+        .mood-btn {
+            flex: 1;
+            padding: 9px 4px;
+            border-radius: 12px;
+            border: 1px solid var(--border2);
+            background: none;
+            cursor: pointer;
+            font-size: 19px;
+            text-align: center;
+        }
+
+        .mood-btn.active {
+            border-color: var(--gold);
+            background: rgba(245, 196, 0, .1);
+        }
+
+        .field-lbl {
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 6px;
+        }
+
+        .field-wrap {
+            margin-bottom: 14px;
+        }
+
+        .track-month {
+            font-family: 'Bebas Neue';
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: var(--gold);
+            padding: 12px 14px 5px;
+        }
+
+        .track-row {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            padding: 11px 16px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .track-row:last-child {
+            border-bottom: none;
+        }
+
+        .track-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .track-date {
+            font-family: 'Bebas Neue';
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: var(--muted);
+            min-width: 68px;
+        }
+
+        .track-preview {
+            font-size: 12px;
+            color: var(--white);
+            opacity: .7;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+        }
+
+        .track-mood {
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        /* OBJETIVOS */
+        .obj-item {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
             padding: 10px 0;
-            border-bottom: 1px solid var(--border2);
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
         }
 
         .obj-item:last-child {
@@ -357,73 +984,68 @@
             height: 22px;
             border-radius: 6px;
             border: 2px solid var(--border2);
-            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            flex-shrink: 0;
+            font-size: 11px;
         }
 
         .obj-item.done .obj-chk {
             background: var(--gold);
             border-color: var(--gold);
             color: #000;
-        }
-
-        .obj-item.done .obj-chk::after {
-            content: '✓';
-            font-weight: bold;
+            font-weight: 700;
         }
 
         .obj-text {
-            font-size: 14px;
-            color: var(--white);
+            font-size: 13px;
+            line-height: 1.5;
         }
 
         .obj-item.done .obj-text {
-            text-decoration: line-through;
             color: var(--muted);
+            text-decoration: line-through;
         }
 
-        /* RUTINA BLOCKS */
+        /* RUTINA / ROADMAP */
         .rblock {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            margin: 8px 14px;
+            margin: 7px 14px;
+            border-radius: 14px;
             overflow: hidden;
+            border: 1px solid var(--border);
         }
 
         .rblock-hdr {
+            padding: 13px 15px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 16px;
-            background: rgba(245, 196, 0, 0.04);
+            gap: 10px;
             cursor: pointer;
+            background: rgba(245, 196, 0, .04);
         }
 
         .rblock-emoji {
-            font-size: 20px;
+            font-size: 17px;
         }
 
         .rblock-title {
             font-family: 'Bebas Neue';
+            font-size: 16px;
+            letter-spacing: 1.5px;
             color: var(--gold);
-            letter-spacing: 1px;
-            font-size: 18px;
         }
 
         .rblock-time {
-            font-size: 11px;
+            font-size: 9px;
             color: var(--muted);
-            margin-top: 2px;
         }
 
         .rblock-arrow {
-            transition: transform 0.3s;
-            color: var(--gold);
-            font-size: 12px;
+            font-size: 10px;
+            color: var(--muted2);
+            margin-left: auto;
+            transition: transform .3s;
         }
 
         .rblock.open .rblock-arrow {
@@ -432,8 +1054,7 @@
 
         .rblock-body {
             display: none;
-            padding: 0 16px 16px;
-            border-top: 1px solid var(--border2);
+            padding: 0 15px 13px;
         }
 
         .rblock.open .rblock-body {
@@ -442,63 +1063,86 @@
 
         .rstep {
             display: flex;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border2);
+            gap: 9px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            align-items: flex-start;
         }
 
         .rstep:last-child {
             border-bottom: none;
-            padding-bottom: 0;
         }
 
         .rstep-num {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--border2);
-            color: var(--muted);
+            font-family: 'Bebas Neue';
             font-size: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-top: 2px;
+            color: var(--gold);
+            min-width: 16px;
+            padding-top: 1px;
         }
 
         .rstep-name {
-            font-size: 15px;
-            color: var(--white);
-            font-weight: 500;
-            margin-bottom: 2px;
+            font-size: 13px;
+            font-weight: 400;
+            margin-bottom: 1px;
         }
 
         .rstep-dur {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--muted);
         }
 
-        /* ROADMAP PHASES */
+        .sec-title {
+            font-family: 'Bebas Neue';
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: var(--gold);
+            padding: 14px 14px 0;
+        }
+
         .rphase {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            margin: 8px 14px;
+            margin: 7px 14px;
+            border-radius: 14px;
             overflow: hidden;
+            border: 1px solid var(--border);
         }
 
         .rphase-hdr {
+            padding: 15px 17px;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 14px;
-            padding: 16px;
-            cursor: pointer;
+            gap: 11px;
+            background: rgba(245, 196, 0, .04);
+        }
+
+        .rphase-num {
+            font-family: 'Bebas Neue';
+            font-size: 34px;
+            line-height: 1;
+            opacity: .15;
+            color: var(--gold);
+        }
+
+        .rphase-title {
+            font-family: 'Bebas Neue';
+            font-size: 19px;
+            letter-spacing: 1.5px;
+            color: var(--gold);
+        }
+
+        .rphase-days {
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 2px;
         }
 
         .rphase-arrow {
-            transition: transform 0.3s;
-            color: var(--gold);
-            font-size: 12px;
+            font-size: 10px;
+            color: var(--muted2);
+            transition: transform .3s;
         }
 
         .rphase.open .rphase-arrow {
@@ -507,789 +1151,2077 @@
 
         .rphase-body {
             display: none;
-            padding: 0 16px 20px;
-            border-top: 1px solid var(--border2);
+            padding: 0 17px 15px;
         }
 
         .rphase.open .rphase-body {
             display: block;
         }
 
+        .phase-obj {
+            background: rgba(245, 196, 0, .04);
+            border-radius: 10px;
+            padding: 11px 13px;
+            margin-bottom: 13px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .phase-obj strong {
+            color: var(--white);
+            font-weight: 400;
+        }
+
         .ptask {
+            padding: 9px 0;
+            border-bottom: 1px solid var(--border);
             display: flex;
-            gap: 12px;
-            margin-bottom: 14px;
+            gap: 9px;
         }
 
         .ptask:last-child {
-            margin-bottom: 0;
+            border-bottom: none;
         }
 
         .ptask-day {
             font-family: 'Bebas Neue';
+            font-size: 10px;
             color: var(--gold);
-            font-size: 14px;
-            width: 35px;
-            flex-shrink: 0;
-            padding-top: 3px;
+            min-width: 36px;
+            padding-top: 2px;
         }
 
         .ptask-name {
-            font-size: 14px;
-            color: var(--white);
-            font-weight: 500;
+            font-size: 13px;
+            font-weight: 400;
             margin-bottom: 2px;
         }
 
         .ptask-desc {
+            font-size: 11px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .ptask-desc em {
+            color: var(--gold2);
+            font-style: normal;
+        }
+
+        .goal-banner {
+            margin: 10px 14px;
+            background: rgba(245, 196, 0, .07);
+            border: 1px solid rgba(245, 196, 0, .25);
+            border-radius: 14px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .goal-num {
+            font-family: 'Bebas Neue';
+            font-size: 50px;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .goal-sub {
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: .6;
+            margin-top: 3px;
+        }
+
+        .goal-desc {
             font-size: 12px;
             color: var(--muted);
-            line-height: 1.4;
+            margin-top: 7px;
+            line-height: 1.5;
+        }
+
+        /* INTERIOR */
+        .spirit-card {
+            margin: 10px 14px;
+            background: rgba(245, 196, 0, .05);
+            border: 1px solid rgba(245, 196, 0, .2);
+            border-radius: 14px;
+            padding: 20px 17px;
+        }
+
+        .spirit-lbl {
+            font-size: 8px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 9px;
+        }
+
+        .spirit-text {
+            font-family: 'DM Serif Display';
+            font-style: italic;
+            font-size: 15px;
+            color: var(--white);
+            line-height: 1.7;
+            margin-bottom: 7px;
+        }
+
+        .spirit-ref {
+            font-size: 10px;
+            color: var(--gold);
+            opacity: .6;
+        }
+
+        .spirit-guide {
+            background: rgba(245, 196, 0, .04);
+            border-left: 3px solid var(--gold);
+            border-radius: 0 10px 10px 0;
+            padding: 13px 15px;
+            margin-bottom: 10px;
+        }
+
+        .spirit-guide-title {
+            font-family: 'Bebas Neue';
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin-bottom: 5px;
+        }
+
+        .spirit-guide-text {
+            font-size: 13px;
+            color: var(--white);
+            line-height: 1.65;
+        }
+
+        .spirit-practice {
+            display: flex;
+            gap: 11px;
+            padding: 11px 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .spirit-practice:last-child {
+            border-bottom: none;
+        }
+
+        .sp-chk {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 11px;
+        }
+
+        .spirit-practice.done .sp-chk {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: #000;
+            font-weight: 700;
+        }
+
+        .sp-name {
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .spirit-practice.done .sp-name {
+            color: var(--muted);
+            text-decoration: line-through;
+        }
+
+        .sp-desc {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 2px;
+            line-height: 1.5;
+        }
+
+        .affirmation-box {
+            background: rgba(245, 196, 0, .06);
+            border: 1px solid rgba(245, 196, 0, .15);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .affirmation-text {
+            font-family: 'DM Serif Display';
+            font-style: italic;
+            font-size: 15px;
+            color: var(--white);
+            line-height: 1.65;
+            transition: opacity .2s;
+        }
+
+        .trading-row {
+            display: flex;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            align-items: flex-start;
+        }
+
+        .trading-row:last-child {
+            border-bottom: none;
+        }
+
+        .tcheck {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border2);
+            border-radius: 5px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        .trading-row.chk .tcheck {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: #000;
+            font-weight: 700;
+        }
+
+        .trading-rule {
+            font-size: 13px;
+            font-weight: 400;
+            margin-bottom: 2px;
+        }
+
+        .trading-desc {
+            font-size: 11px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .fade-in {
+            animation: fadeUp .4s ease both;
         }
     </style>
 </head>
 
 <body>
-
     <div id="app">
-
-        <!-- ================= SECCIÓN 1: INICIO ================= -->
-        <div class="screen active" id="s-home">
-            <div class="page-header"
-                style="display:flex;justify-content:space-between;align-items:center;padding-top:calc(var(--sat) + 20px);">
-                <!-- T - blanco -->
-                <svg width="100" height="28" viewBox="0 0 110 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <line x1="2" y1="4" x2="16" y2="4" stroke="#f5f0e8" stroke-width="2.8" stroke-linecap="square" />
-                    <line x1="9" y1="4" x2="9" y2="26" stroke="#f5f0e8" stroke-width="2.8" stroke-linecap="square" />
-                    <line x1="22" y1="4" x2="22" y2="26" stroke="#f5f0e8" stroke-width="2.8" stroke-linecap="square" />
-                    <path d="M22 4 L31 4 L31 14 L22 14" stroke="#f5f0e8" stroke-width="2.8" fill="none"
-                        stroke-linecap="square" stroke-linejoin="miter" />
-                    <line x1="28" y1="14" x2="33" y2="26" stroke="#f5f0e8" stroke-width="2.8" stroke-linecap="square" />
-                    <path d="M40 4 L51 4 L51 14 L40 14" stroke="#f5c400" stroke-width="2.8" fill="none"
-                        stroke-linecap="square" stroke-linejoin="miter" />
-                    <path d="M40 26 L51 26 L51 14" stroke="#f5c400" stroke-width="2.8" fill="none"
-                        stroke-linecap="square" stroke-linejoin="miter" />
-                    <path d="M62 4 L58 4 Q57 4 57 5 L57 25 Q57 26 58 26 L62 26" stroke="#f5f0e8" stroke-width="2.8"
-                        fill="none" stroke-linecap="square" stroke-linejoin="miter" />
-                    <path d="M69 4 L80 4 L80 14 L69 14" stroke="#f5c400" stroke-width="2.8" fill="none"
-                        stroke-linecap="square" stroke-linejoin="miter" />
-                    <path d="M69 26 L80 26 L80 14" stroke="#f5c400" stroke-width="2.8" fill="none"
-                        stroke-linecap="square" stroke-linejoin="miter" />
-                </svg>
-                <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:500;"
-                    id="h-date">JUE 13 FEB</div>
-            </div>
-
-            <div style="padding: 0 24px;">
-                <div style="font-size:13px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;"
-                    id="h-greet">BUENAS TARDES</div>
-                <div class="page-title">HOLA,<br><span style="color:var(--gold)">GUERRERO</span></div>
-                <div class="page-sub" id="h-quote">"El árbol más fuerte creció del suelo más oscuro."</div>
-            </div>
-
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:16px 14px;">
-                <div class="fin-box" style="text-align:center;">
-                    <div class="fin-box-val" id="s-hab">0/8</div>
-                    <div class="fin-box-lbl">HÁBITOS</div>
-                </div>
-                <div class="fin-box" style="text-align:center;">
-                    <div class="fin-box-val" id="s-str">0</div>
-                    <div class="fin-box-lbl">RACHA</div>
-                </div>
-                <div class="fin-box" style="text-align:center;">
-                    <div class="fin-box-val" id="s-vic">0</div>
-                    <div class="fin-box-lbl">VICTORIAS</div>
-                </div>
-            </div>
-
-            <div class="card"
-                style="background:var(--card2);border-color:var(--border2);display:flex;gap:12px;align-items:center;">
-                <div style="font-size:24px;">👶</div>
-                <div class="serif-italic" style="font-size:14px;line-height:1.4;color:var(--white);" id="motivator-txt">
-                    Tu hijo está mirando. No al que eres hoy — al que estás eligiendo ser.</div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">⏱ TU DÍA HOY</div>
-                <div id="day-grid">
-                    <!-- Static grid for now, dynamic later if needed -->
-                    <div
-                        style="display:flex;gap:12px;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:16px;">
-                        <div
-                            style="font-family:'Bebas Neue';color:var(--gold);font-size:16px;width:45px;padding-top:3px;">
-                            06:30</div>
-                        <div>
-                            <div style="font-weight:500;font-size:15px;color:var(--white);margin-bottom:4px;">🐕 Perros
-                                + bebé</div>
-                            <div style="font-size:13px;color:var(--muted);">Paseo · Biberón · Guardería</div>
-                        </div>
-                    </div>
-                    <div
-                        style="display:flex;gap:12px;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:16px;">
-                        <div
-                            style="font-family:'Bebas Neue';color:var(--gold);font-size:16px;width:45px;padding-top:3px;">
-                            08:30</div>
-                        <div>
-                            <div style="font-weight:500;font-size:15px;color:var(--white);margin-bottom:4px;">💤 A
-                                dormir</div>
-                            <div style="font-size:13px;color:var(--muted);">6,5h mínimo · Sin móvil en cama</div>
-                        </div>
-                    </div>
-                    <div
-                        style="display:flex;gap:12px;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:16px;">
-                        <div
-                            style="font-family:'Bebas Neue';color:var(--gold);font-size:16px;width:45px;padding-top:3px;">
-                            15:00</div>
-                        <div>
-                            <div style="font-weight:500;font-size:15px;color:var(--white);margin-bottom:4px;">🔥
-                                Despertar</div>
-                            <div style="font-size:13px;color:var(--muted);">Ritual 10 min · Perros · Intención</div>
-                        </div>
-                    </div>
-                    <div
-                        style="display:flex;gap:12px;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:16px;">
-                        <div
-                            style="font-family:'Bebas Neue';color:var(--gold);font-size:16px;width:45px;padding-top:3px;">
-                            15:30</div>
-                        <div>
-                            <div style="font-weight:500;font-size:15px;color:var(--white);margin-bottom:4px;">💻 Bloque
-                                productivo</div>
-                            <div style="font-size:13px;color:var(--muted);">IA · Automatizaciones · Roadmap</div>
-                        </div>
-                    </div>
-                    <div
-                        style="display:flex;gap:12px;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:16px;">
-                        <div
-                            style="font-family:'Bebas Neue';color:var(--gold);font-size:16px;width:45px;padding-top:3px;">
-                            16:30</div>
-                        <div>
-                            <div style="font-weight:500;font-size:15px;color:var(--white);margin-bottom:4px;">👨👩👧
-                                Bebé + familia</div>
-                            <div style="font-size:13px;color:var(--muted);">Presente de verdad · Ejercicio</div>
-                        </div>
-                    </div>
-                    <div style="display:flex;gap:12px;">
-                        <div
-                            style="font-family:'Bebas Neue';color:var(--gold);font-size:16px;width:45px;padding-top:3px;">
-                            21:30</div>
-                        <div>
-                            <div style="font-weight:500;font-size:15px;color:var(--white);margin-bottom:4px;">🌙 Jornada
-                                nocturna</div>
-                            <div style="font-size:13px;color:var(--muted);">Formación · Espiritualidad · Trading</div>
-                        </div>
-                    </div>
-                </div>
+        <!-- HTML CONTINUES IN PART 2... -->
+<!-- HOME -->
+<div class="screen active" id="s-home">
+    <div class="home-hero fade-in">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <svg width="100" height="28" viewBox="0 0 110 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="2" y1="4" x2="16" y2="4" stroke="#f5f0e8" stroke-width="2.8" stroke-linecap="square" />
+                <line x1="9" y1="4" x2="9" y2="26" stroke="#f5f0e8" stroke-width="2.8" stroke-linecap="square" />
+                <line x1="22" y1="4" x2="22" y2="26" stroke="#f5f0e8" stroke-width="2.8" stroke-linecap="square" />
+                <path d="M22 4 L31 4 L31 14 L22 14" stroke="#f5f0e8" stroke-width="2.8" fill="none"
+                    stroke-linecap="square" stroke-linejoin="miter" />
+                <line x1="28" y1="14" x2="33" y2="26" stroke="#f5f0e8" stroke-width="2.8" stroke-linecap="square" />
+                <path d="M40 4 L51 4 L51 14 L40 14" stroke="#f5c400" stroke-width="2.8" fill="none"
+                    stroke-linecap="square" stroke-linejoin="miter" />
+                <path d="M40 26 L51 26 L51 14" stroke="#f5c400" stroke-width="2.8" fill="none" stroke-linecap="square"
+                    stroke-linejoin="miter" />
+                <path d="M62 4 L58 4 Q57 4 57 5 L57 25 Q57 26 58 26 L62 26" stroke="#f5f0e8" stroke-width="2.8"
+                    fill="none" stroke-linecap="square" stroke-linejoin="miter" />
+                <path d="M69 4 L80 4 L80 14 L69 14" stroke="#f5c400" stroke-width="2.8" fill="none"
+                    stroke-linecap="square" stroke-linejoin="miter" />
+                <path d="M69 26 L80 26 L80 14" stroke="#f5c400" stroke-width="2.8" fill="none" stroke-linecap="square"
+                    stroke-linejoin="miter" />
+            </svg>
+            <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)" id="home-date">
             </div>
         </div>
+        <div class="home-greeting" id="greeting">Buenas tardes</div>
+        <div class="home-title">HOLA,<br><span>GUERRERO</span></div>
+        <div class="home-quote">"El árbol más fuerte creció del suelo más oscuro."</div>
+    </div>
+    <div class="stats-grid fade-in">
+        <div class="stat-box">
+            <div class="stat-num" id="s-habits">0/8</div>
+            <div class="stat-lbl">Hábitos</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num" id="s-streak">0</div>
+            <div class="stat-lbl">Racha</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num" id="s-wins">0</div>
+            <div class="stat-lbl">Victorias</div>
+        </div>
+    </div>
+    <div class="motivator fade-in">
+        <div class="motivator-emoji">👶</div>
+        <div class="motivator-text" id="motivator-txt">Tu hijo está mirando. No al que eres hoy — al que estás eligiendo
+            ser.</div>
+    </div>
+    <div class="card fade-in">
+        <div class="card-title">⏱ TU DÍA HOY</div>
+        <div class="today-block">
+            <div class="tb-hour">06:30</div>
+            <div>
+                <div class="badge b-gold">Familia</div>
+                <div class="tb-name">🐕 Perros + bebé</div>
+                <div class="tb-desc">Paseo · Biberón · Guardería</div>
+            </div>
+        </div>
+        <div class="today-block">
+            <div class="tb-hour">08:30</div>
+            <div>
+                <div class="badge b-dark">Descanso</div>
+                <div class="tb-name">💤 A dormir</div>
+                <div class="tb-desc">6,5h mínimo · Sin móvil en cama</div>
+            </div>
+        </div>
+        <div class="today-block">
+            <div class="tb-hour">15:00</div>
+            <div>
+                <div class="badge b-gold">Ritual</div>
+                <div class="tb-name">🔥 Despertar</div>
+                <div class="tb-desc">Ritual 10 min · Perros · Intención</div>
+            </div>
+        </div>
+        <div class="today-block">
+            <div class="tb-hour">15:30</div>
+            <div>
+                <div class="badge b-gold">Trabajo</div>
+                <div class="tb-name">💻 Bloque productivo</div>
+                <div class="tb-desc">IA · Automatizaciones · Roadmap</div>
+            </div>
+        </div>
+        <div class="today-block">
+            <div class="tb-hour">16:30</div>
+            <div>
+                <div class="badge b-dark">Familia</div>
+                <div class="tb-name">👨👩👧 Bebé + familia</div>
+                <div class="tb-desc">Presente de verdad · Ejercicio</div>
+            </div>
+        </div>
+        <div class="today-block">
+            <div class="tb-hour">21:30</div>
+            <div>
+                <div class="badge b-dark">Noche</div>
+                <div class="tb-name">🌙 Jornada nocturna</div>
+                <div class="tb-desc">Formación · Espiritualidad · Trading</div>
+            </div>
+        </div>
+    </div>
+</div>
 
-        <!-- ================= SECCIÓN 2: HÁBITOS ================= -->
-        <div class="screen" id="s-habitos">
-            <div class="page-header">
-                <div class="page-tag">Disciplina diaria</div>
-                <div class="page-title">HÁBITOS</div>
-            </div>
-            <!-- (Empty hooks for JS populated content if needed, for brevity using static placeholder or JS logic same as V1 but simplified) -->
-            <div class="card">
-                <div class="card-title">EN CONSTRUCCIÓN (Usar lógica JS V1 para esto)</div>
-            </div>
+<!-- HÁBITOS -->
+<div class="screen" id="s-habitos">
+    <div class="page-header">
+        <div class="page-tag">Disciplina diaria</div>
+        <div class="page-title">HÁBITOS</div>
+        <div class="page-sub">Pequeñas victorias, resultados enormes</div>
+    </div>
+    <div class="card" style="margin-top:14px;">
+        <div class="card-title">📊 PROGRESO HOY</div>
+        <div class="prog-label"><span id="hab-done-lbl">0 completados</span><span id="hab-pct-lbl">0%</span></div>
+        <div class="prog-bar">
+            <div class="prog-fill" id="hab-bar" style="width:0%"></div>
         </div>
+        <div class="week-dots" style="margin-top:12px;">
+            <div class="wdot done">L</div>
+            <div class="wdot done">M</div>
+            <div class="wdot done">X</div>
+            <div class="wdot today">J</div>
+            <div class="wdot">V</div>
+            <div class="wdot">S</div>
+            <div class="wdot">D</div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title">🌅 AL DESPERTAR · 15:00H</div>
+        <div class="hab-item" data-id="h1" onclick="toggleHab(this)">
+            <div class="hab-chk"></div>
+            <div style="flex:1">
+                <div class="hab-name">Levantarse SIN snooze</div>
+                <div class="hab-sub">La disciplina empieza aquí</div>
+            </div>
+            <div class="hab-streak">🔥0</div>
+        </div>
+        <div class="hab-item" data-id="h2" onclick="toggleHab(this)">
+            <div class="hab-chk"></div>
+            <div style="flex:1">
+                <div class="hab-name">Ritual de 10 minutos</div>
+                <div class="hab-sub">Afirmación + respiración + intención</div>
+            </div>
+            <div class="hab-streak">🔥0</div>
+        </div>
+        <div class="hab-item" data-id="h3" onclick="toggleHab(this)">
+            <div class="hab-chk"></div>
+            <div style="flex:1">
+                <div class="hab-name">Sacar los perros</div>
+                <div class="hab-sub">15 min · Aire fresco</div>
+            </div>
+            <div class="hab-streak">🔥0</div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title">💻 BLOQUE PRODUCTIVO · 15:30H</div>
+        <div class="hab-item" data-id="h4" onclick="toggleHab(this)">
+            <div class="hab-chk"></div>
+            <div style="flex:1">
+                <div class="hab-name">45 min de trabajo real</div>
+                <div class="hab-sub">IA · Automatizaciones · Proyectos</div>
+            </div>
+            <div class="hab-streak">🔥0</div>
+        </div>
+        <div class="hab-item" data-id="h5" onclick="toggleHab(this)">
+            <div class="hab-chk"></div>
+            <div style="flex:1">
+                <div class="hab-name">Sin redes hasta completar trabajo</div>
+                <div class="hab-sub">La procrastinación empieza en el móvil</div>
+            </div>
+            <div class="hab-streak">🔥0</div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title">🌙 EN EL TRABAJO · 22:00H</div>
+        <div class="hab-item" data-id="h6" onclick="toggleHab(this)">
+            <div class="hab-chk"></div>
+            <div style="flex:1">
+                <div class="hab-name">20 min de formación</div>
+                <div class="hab-sub">IA · Marketing · Automatizaciones</div>
+            </div>
+            <div class="hab-streak">🔥0</div>
+        </div>
+        <div class="hab-item" data-id="h7" onclick="toggleHab(this)">
+            <div class="hab-chk"></div>
+            <div style="flex:1">
+                <div class="hab-name">10 min de reflexión interior</div>
+                <div class="hab-sub">Silencio · Gratitud · Conexión</div>
+            </div>
+            <div class="hab-streak">🔥0</div>
+        </div>
+        <div class="hab-item" data-id="h8" onclick="toggleHab(this)">
+            <div class="hab-chk"></div>
+            <div style="flex:1">
+                <div class="hab-name">Afirmación antes de dormir</div>
+                <div class="hab-sub">Programar el subconsciente nocturno</div>
+            </div>
+            <div class="hab-streak">🔥0</div>
+        </div>
+    </div>
+</div>
 
-        <!-- ================= SECCIÓN 4: FINANZAS ================= -->
-        <div class="screen" id="s-finanzas">
-            <div class="page-header">
-                <div class="page-tag">Control financiero</div>
-                <div class="page-title">FINANZAS</div>
-                <div class="page-sub">Lo que no mides, no puedes mejorar</div>
+<!-- COACH -->
+<div class="screen" id="s-coach">
+    <div class="page-header">
+        <div class="page-tag">Inteligencia Artificial</div>
+        <div class="page-title">COACH IA</div>
+        <div class="page-sub">GPT-4o mini · OpenAI</div>
+    </div>
+    <div class="api-box">
+        <div class="api-box-lbl">🔑 API KEY OPENAI</div>
+        <div id="api-ok" style="display:none;font-size:13px;color:var(--green);margin-bottom:8px;">✅ Conectado — Coach
+            listo</div>
+        <div id="api-wrap" style="display:flex;gap:8px;">
+            <input class="inp" id="api-key-inp" type="password" placeholder="sk-..." style="flex:1;font-size:14px;">
+            <button class="btn btn-sm" onclick="saveKey()">OK</button>
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:7px;">Solo en memoria de sesión · Modelo: gpt-4o-mini
+        </div>
+    </div>
+    <div class="mode-pills">
+        <button class="mpill active" onclick="setMode(this,'libre')">💬 Libre</button>
+        <button class="mpill" onclick="setMode(this,'analisis')">🔍 Análisis</button>
+        <button class="mpill" onclick="setMode(this,'trading')">📈 Trading</button>
+        <button class="mpill" onclick="setMode(this,'mente')">🧠 Mente</button>
+        <button class="mpill" onclick="setMode(this,'metas')">🎯 Metas</button>
+        <button class="mpill" onclick="setMode(this,'negocio')">💼 Negocio</button>
+        <button class="mpill" onclick="setMode(this,'espiritual')">✨ Espiritual</button>
+    </div>
+    <div class="chat-layout">
+        <div class="chat-msgs" id="chat-msgs">
+            <div class="msg ai">
+                <div class="ai-label">COACH TR3C3</div>
+                <div class="bubble">Hola. Soy tu coach personal.<br><br>No voy a decirte lo que quieres oír.<br>Voy a
+                    decirte lo que necesitas escuchar.<br><br>¿Cómo llegas hoy?</div>
+                <div class="msg-meta" id="coach-time"></div>
             </div>
-            <div class="fin-grid">
-                <div class="fin-box fin-wide">
-                    <div class="fin-box-lbl">💰 Ahorrado este mes</div>
-                    <div class="fin-box-val" style="color:var(--green)" id="fin-saved">0 €</div>
-                    <div class="prog-label" style="margin-top:10px;"><span id="fin-pct">0% del objetivo</span><span
-                            id="fin-goal-lbl">Meta: 300 €</span></div>
-                    <div class="prog-bar">
-                        <div class="prog-fill" id="fin-bar" style="width:0%"></div>
-                    </div>
-                </div>
-                <div class="fin-box">
-                    <div class="fin-box-lbl">📤 Gastos mes</div>
-                    <div class="fin-box-val" style="color:var(--red)" id="fin-spent">0 €</div>
-                    <div style="font-size:9px;color:var(--muted2);margin-top:2px;">Este mes</div>
-                </div>
-                <div class="fin-box">
-                    <div class="fin-box-lbl">📥 Ingresos mes</div>
-                    <div class="fin-box-val" style="color:var(--gold)" id="fin-income">0 €</div>
-                    <div style="font-size:9px;color:var(--muted2);margin-top:2px;">Este mes</div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-title">➕ AÑADIR MOVIMIENTO</div>
-                <div style="display:flex;gap:7px;margin-bottom:8px;">
-                    <button class="cpill active" id="btn-g" onclick="setTxType('gasto')"
-                        style="flex:1;text-align:center;">📤 Gasto</button>
-                    <button class="cpill" id="btn-i" onclick="setTxType('ingreso')" style="flex:1;text-align:center;">📥
-                        Ingreso</button>
-                </div>
-                <input class="inp" id="tx-desc" placeholder="Descripción (ej: Compra mercadona)"
-                    style="margin-bottom:8px;">
-                <input class="inp" id="tx-amt" type="number" placeholder="Importe en €" inputmode="decimal"
-                    style="margin-bottom:8px;">
-                <div class="cat-pills" id="cat-pills">
-                    <button class="cpill active" onclick="setCat(this,'🏠 Casa')">🏠 Casa</button>
-                    <button class="cpill" onclick="setCat(this,'🍔 Comida')">🍔 Comida</button>
-                    <button class="cpill" onclick="setCat(this,'🚗 Transporte')">🚗 Trans.</button>
-                    <button class="cpill" onclick="setCat(this,'💊 Salud')">💊 Salud</button>
-                    <button class="cpill" onclick="setCat(this,'📚 Formación')">📚 Form.</button>
-                    <button class="cpill" onclick="setCat(this,'💰 Ahorro')">💰 Ahorro</button>
-                    <button class="cpill" onclick="setCat(this,'🎯 Negocio')">🎯 Negocio</button>
-                    <button class="cpill" onclick="setCat(this,'📦 Otros')">📦 Otros</button>
-                </div>
-                <button class="btn" onclick="addTx()">REGISTRAR MOVIMIENTO</button>
-            </div>
-            <div class="card">
-                <div class="card-title">🎯 OBJETIVO DE AHORRO</div>
-                <div style="display:flex;gap:8px;">
-                    <input class="inp" id="goal-inp" type="number" placeholder="Meta en €" inputmode="decimal"
-                        style="flex:1">
-                    <button class="btn" style="width:auto;padding:0 18px;margin:0;" onclick="setGoal()">GUARDAR</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-title">👨🏫 CONSEJOS DEL MENTOR</div>
-                <div class="mentor-tip">
-                    <div class="mentor-tip-src">Robert Kiyosaki</div>
-                    <div class="mentor-tip-text">"Págate a ti primero. Antes de pagar cualquier factura, aparta un %
-                        fijo para ti."</div>
-                </div>
-                <div class="mentor-tip">
-                    <div class="mentor-tip-src">Ramit Sethi</div>
-                    <div class="mentor-tip-text">"Automatiza tus ahorros. Si tienes que decidirlo cada mes, fallarás."
-                    </div>
-                </div>
-                <textarea class="inp" id="mentor-inp" style="min-height:65px;margin-top:8px;"
-                    placeholder="Añade tu propio consejo..."></textarea>
-                <button class="btn" onclick="addMentor()">GUARDAR CONSEJO</button>
-            </div>
-            <div class="card">
-                <div class="card-title">📋 HISTORIAL — ESTE MES</div>
-                <div id="tx-list">
-                    <div style="text-align:center;padding:20px;color:var(--muted);font-size:13px;">Sin movimientos
-                        todavía.<br>Añade tu primer registro arriba.</div>
-                </div>
+            <div class="typing-ind" id="typing">
+                <div class="tdot"></div>
+                <div class="tdot"></div>
+                <div class="tdot"></div>
             </div>
         </div>
-
-        <!-- ================= SECCIÓN 5: DIARIO ================= -->
-        <div class="screen" id="s-diario">
-            <div class="page-header">
-                <div class="page-tag">Crecimiento personal</div>
-                <div class="page-title">DIARIO</div>
-                <div class="page-sub">El que escribe, se conoce</div>
-            </div>
-            <div
-                style="display:flex;gap:0;margin:12px 14px 0;border:1px solid var(--border2);border-radius:12px;overflow:hidden;">
-                <button id="tab-w" onclick="setTab('w')"
-                    style="flex:1;padding:12px;border:none;font-family:'Bebas Neue';font-size:13px;letter-spacing:2px;cursor:pointer;background:var(--gold);color:#000;">✍️
-                    ESCRIBIR</button>
-                <button id="tab-t" onclick="setTab('t')"
-                    style="flex:1;padding:12px;border:none;font-family:'Bebas Neue';font-size:13px;letter-spacing:2px;cursor:pointer;background:var(--card);color:var(--muted);">📊
-                    TRACKLIST</button>
-            </div>
-            <div id="panel-w">
-                <div class="card" style="margin-top:12px;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                        <div>
-                            <div style="font-family:'Bebas Neue';font-size:22px;letter-spacing:2px;color:var(--gold);"
-                                id="j-date">HOY</div>
-                            <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);"
-                                id="j-dow"></div>
-                        </div>
-                        <div style="font-size:11px;color:var(--muted);" id="j-time"></div>
-                    </div>
-                    <div
-                        style="font-family:'Bebas Neue';font-size:11px;letter-spacing:2px;color:var(--muted);margin-bottom:8px;">
-                        😶 ¿CÓMO LLEGAS HOY?</div>
-                    <div style="display:flex;gap:7px;">
-                        <button
-                            style="flex:1;padding:9px 4px;border-radius:12px;border:1px solid var(--border2);background:none;cursor:pointer;font-size:19px;text-align:center;"
-                            onclick="setMood(this,'😤')">😤</button>
-                        <button
-                            style="flex:1;padding:9px 4px;border-radius:12px;border:1px solid var(--border2);background:none;cursor:pointer;font-size:19px;text-align:center;"
-                            onclick="setMood(this,'😞')">😞</button>
-                        <button
-                            style="flex:1;padding:9px 4px;border-radius:12px;border:1px solid var(--border2);background:none;cursor:pointer;font-size:19px;text-align:center;border-color:var(--gold);background:rgba(245,196,0,.1);"
-                            onclick="setMood(this,'😐')">😐</button>
-                        <button
-                            style="flex:1;padding:9px 4px;border-radius:12px;border:1px solid var(--border2);background:none;cursor:pointer;font-size:19px;text-align:center;"
-                            onclick="setMood(this,'🙂')">🙂</button>
-                        <button
-                            style="flex:1;padding:9px 4px;border-radius:12px;border:1px solid var(--border2);background:none;cursor:pointer;font-size:19px;text-align:center;"
-                            onclick="setMood(this,'🔥')">🔥</button>
-                    </div>
-                </div>
-                <div class="card" style="background:rgba(245,196,0,.04);border-color:rgba(245,196,0,.18);">
-                    <div
-                        style="font-family:'DM Serif Display';font-style:italic;font-size:16px;color:var(--white);line-height:1.6;margin-bottom:16px;">
-                        "¿Qué necesito hoy para estar orgulloso de mí mismo al anochecer?"</div>
-                    <div style="margin-bottom:14px;">
-                        <div
-                            style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">
-                            🎯 UNA ACCIÓN QUE ME ACERQUE A MI META</div><textarea class="inp" id="j-accion"
-                            style="min-height:70px;" placeholder="Ej: Llamar a mi amigo..."></textarea>
-                    </div>
-                    <div style="margin-bottom:14px;">
-                        <div
-                            style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">
-                            💪 UNA ACTITUD QUE VOY A SOSTENER</div><textarea class="inp" id="j-actitud"
-                            style="min-height:70px;" placeholder="Ej: Paciencia..."></textarea>
-                    </div>
-                    <div>
-                        <div
-                            style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">
-                            🚫 UN PENSAMIENTO QUE NO VOY A PERMITIR HOY</div><textarea class="inp" id="j-pens"
-                            style="min-height:70px;" placeholder="Ej: 'Esto no va a funcionar'..."></textarea>
-                    </div>
-                </div>
-                <div class="card">
-                    <div
-                        style="font-family:'Bebas Neue';font-size:11px;letter-spacing:2px;color:var(--muted);margin-bottom:12px;">
-                        📝 RESUMEN COMPLETO DEL DÍA</div>
-                    <textarea class="inp" id="j-resumen" style="min-height:80px;margin-bottom:10px;"
-                        placeholder="Resumen general..."></textarea>
-                    <button class="btn" id="save-btn" onclick="saveEntry()">💾 GUARDAR ENTRADA DEL DÍA</button>
-                </div>
-                <div class="card">
-                    <div
-                        style="font-family:'Bebas Neue';font-size:11px;letter-spacing:2px;color:var(--muted);margin-bottom:12px;">
-                        🎯 OBJETIVOS PERSONALES</div>
-                    <div id="obj-list">
-                        <div class="obj-item" onclick="toggleObj(this)">
-                            <div class="obj-chk"></div>
-                            <div class="obj-text">Leer 10 páginas al día</div>
-                        </div>
-                        <div class="obj-item" onclick="toggleObj(this)">
-                            <div class="obj-chk"></div>
-                            <div class="obj-text">Hacer ejercicio 4 veces/sem</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="panel-t" style="display:none;">
-                <div class="card" style="margin-top:12px;">
-                    <div
-                        style="font-family:'Bebas Neue';font-size:11px;letter-spacing:2px;color:var(--muted);margin-bottom:8px;">
-                        📊 TU EVOLUCIÓN MES A MES</div>
-                    <div style="font-size:13px;color:var(--muted);line-height:1.6;">Toca cualquier entrada para verla
-                        completa.</div>
-                </div>
-                <div id="tracklist"></div>
-            </div>
+        <div class="chat-bar">
+            <textarea class="chat-ta" id="chat-ta" placeholder="Escribe aquí..." rows="1" onkeydown="handleEnter(event)"
+                oninput="autoH(this)"></textarea>
+            <button class="send-btn" onclick="sendMsg()">↑</button>
         </div>
-
-        <!-- ================= SECCIÓN 6: RUTINA ================= -->
-        <div class="screen" id="s-rutina">
-            <div class="page-header">
-                <div class="page-tag">Tu protocolo personal</div>
-                <div class="page-title">RUTINA</div>
-                <div class="page-sub">Estructura que libera, no que esclaviza</div>
-            </div>
-            <div class="rblock open" onclick="toggleBlock(this)" style="margin-top:12px;">
-                <div class="rblock-hdr">
-                    <div class="rblock-emoji">🌅</div>
-                    <div style="flex:1;">
-                        <div class="rblock-title">LLEGADA A CASA</div>
-                        <div class="rblock-time">06:30 – 08:30h</div>
-                    </div>
-                    <div class="rblock-arrow">▼</div>
-                </div>
-                <div class="rblock-body">
-                    <div class="rstep">
-                        <div class="rstep-num">1</div>
-                        <div>
-                            <div class="rstep-name">🐕 Sacar los perros</div>
-                            <div class="rstep-dur">15 min · Desconexión</div>
-                        </div>
-                    </div>
-                    <div class="rstep">
-                        <div class="rstep-num">2</div>
-                        <div>
-                            <div class="rstep-name">👶 Atender al bebé</div>
-                            <div class="rstep-dur">Biberón, vestirlo, guardería</div>
-                        </div>
-                    </div>
-                    <div class="rstep">
-                        <div class="rstep-num">3</div>
-                        <div>
-                            <div class="rstep-name">🪥 Higiene y cama</div>
-                            <div class="rstep-dur">Sin móvil · Dormir antes 8:30h</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="rblock" onclick="toggleBlock(this)">
-                <div class="rblock-hdr">
-                    <div class="rblock-emoji">🔥</div>
-                    <div style="flex:1;">
-                        <div class="rblock-title">RITUAL DESPERTAR</div>
-                        <div class="rblock-time">15:00 – 15:30h</div>
-                    </div>
-                    <div class="rblock-arrow">▼</div>
-                </div>
-                <div class="rblock-body">
-                    <div class="rstep">
-                        <div class="rstep-num">1</div>
-                        <div>
-                            <div class="rstep-name">⏰ Sin snooze</div>
-                            <div class="rstep-dur">Decide.</div>
-                        </div>
-                    </div>
-                    <div class="rstep">
-                        <div class="rstep-num">2</div>
-                        <div>
-                            <div class="rstep-name">💧 Agua + cara</div>
-                            <div class="rstep-dur">2 min</div>
-                        </div>
-                    </div>
-                    <div class="rstep">
-                        <div class="rstep-num">3</div>
-                        <div>
-                            <div class="rstep-name">🧠 Afirmación</div>
-                            <div class="rstep-dur">2 min · Voz alta</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="rblock" onclick="toggleBlock(this)">
-                <div class="rblock-hdr">
-                    <div class="rblock-emoji">💻</div>
-                    <div style="flex:1;">
-                        <div class="rblock-title">BLOQUE PRODUCTIVO</div>
-                        <div class="rblock-time">15:30 – 16:30h</div>
-                    </div>
-                    <div class="rblock-arrow">▼</div>
-                </div>
-                <div class="rblock-body">
-                    <div class="rstep">
-                        <div class="rstep-num">1</div>
-                        <div>
-                            <div class="rstep-name">📵 Móvil modo avión</div>
-                            <div class="rstep-dur">Foco total</div>
-                        </div>
-                    </div>
-                    <div class="rstep">
-                        <div class="rstep-num">2</div>
-                        <div>
-                            <div class="rstep-name">💻 45 min deep work</div>
-                            <div class="rstep-dur">Roadmap</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div
-                style="font-family:'Bebas Neue';font-size:11px;letter-spacing:3px;color:var(--gold);padding:14px 14px 0;">
-                🧹 LIMPIEZA SEMANAL</div>
-            <div class="rblock" onclick="toggleBlock(this)">
-                <div class="rblock-hdr">
-                    <div class="rblock-emoji">🚿</div>
-                    <div style="flex:1;">
-                        <div class="rblock-title">LUNES · Baños</div>
-                        <div class="rblock-time">~25 min</div>
-                    </div>
-                    <div class="rblock-arrow">▼</div>
-                </div>
-                <div class="rblock-body">
-                    <div class="rstep">
-                        <div class="rstep-num">1</div>
-                        <div>
-                            <div class="rstep-name">Lavabo y espejo</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= SECCIÓN 7: ROADMAP ================= -->
-        <div class="screen" id="s-roadmap">
-            <div class="page-header">
-                <div class="page-tag">Plan de negocio real</div>
-                <div class="page-title">ROADMAP</div>
-                <div class="page-sub">De 0€ a 1.000€ con IA en 30 días</div>
-            </div>
-            <div
-                style="margin:10px 14px;background:rgba(245,196,0,.07);border:1px solid rgba(245,196,0,.25);border-radius:14px;padding:18px;text-align:center;">
-                <div
-                    style="font-family:'Bebas Neue';font-size:50px;letter-spacing:2px;color:var(--gold);line-height:1;">
-                    1.000€</div>
-                <div
-                    style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);opacity:.6;margin-top:3px;">
-                    Objetivo · 30 días</div>
-                <div style="font-size:12px;color:var(--muted);margin-top:7px;line-height:1.5;">Automatizaciones IA ·
-                    LinkedIn · 60-90 min diarios</div>
-            </div>
-            <div class="rphase open" onclick="togglePhase(this)" style="margin-top:8px;">
-                <div class="rphase-hdr">
-                    <div style="font-family:'Bebas Neue';font-size:34px;line-height:1;opacity:.15;color:var(--gold);">1
-                    </div>
-                    <div style="flex:1;">
-                        <div style="font-family:'Bebas Neue';font-size:19px;letter-spacing:1.5px;color:var(--gold);">
-                            CIMIENTOS</div>
-                        <div
-                            style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:2px;">
-                            Días 1–7 · Preparar el terreno</div>
-                    </div>
-                    <div class="rphase-arrow">▼</div>
-                </div>
-                <div class="rphase-body">
-                    <div class="ptask">
-                        <div class="ptask-day">D1–2</div>
-                        <div>
-                            <div class="ptask-name">Define servicio</div>
-                            <div class="ptask-desc">Automatización WhatsApp Business para transportes.</div>
-                        </div>
-                    </div>
-                    <div class="ptask">
-                        <div class="ptask-day">D6</div>
-                        <div>
-                            <div class="ptask-name">Conversación amigo</div>
-                            <div class="ptask-desc">Pregunta problemas primero.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="rphase" onclick="togglePhase(this)">
-                <div class="rphase-hdr">
-                    <div style="font-family:'Bebas Neue';font-size:34px;line-height:1;opacity:.15;color:var(--gold);">2
-                    </div>
-                    <div style="flex:1;">
-                        <div style="font-family:'Bebas Neue';font-size:19px;letter-spacing:1.5px;color:var(--gold);">
-                            VISIBILIDAD</div>
-                        <div
-                            style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:2px;">
-                            Días 8–15 · Generar confianza</div>
-                    </div>
-                    <div class="rphase-arrow">▼</div>
-                </div>
-                <div class="rphase-body">
-                    <div class="ptask">
-                        <div class="ptask-day">D8</div>
-                        <div>
-                            <div class="ptask-name">LinkedIn optimizado</div>
-                            <div class="ptask-desc">"Ayudo a empresas a automatizar..."</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= SECCIÓN 3, 8, 9, ... (Placeholders validos según prompt) ================= -->
-        <div class="screen" id="s-coach">
-            <div class="page-header">
-                <div class="page-title">COACH</div>
-            </div>
-            <div class="card">
-                <div class="card-title">EN CONSTRUCCIÓN</div>
-            </div>
-        </div>
-        <div class="screen" id="s-digital">
-            <div class="page-header">
-                <div class="page-title">DIGITAL</div>
-            </div>
-            <div class="card">
-                <div class="card-title">EN CONSTRUCCIÓN</div>
-            </div>
-        </div>
-        <div class="screen" id="s-fe">
-            <div class="page-header">
-                <div class="page-title">INTERIOR</div>
-            </div>
-            <div class="card">
-                <div class="card-title">EN CONSTRUCCIÓN</div>
-            </div>
-        </div>
-
+    </div>
+</div>
+<!-- FINANZAS -->
+<div class="screen" id="s-finanzas">
+    <div class="page-header">
+        <div class="page-tag">Control financiero</div>
+        <div class="page-title">FINANZAS</div>
+        <div class="page-sub">Lo que no mides, no puedes mejorar</div>
     </div>
 
-    <!-- NAV -->
-    <nav>
-        <button class="nav-btn active" onclick="go('home',this)"><span class="nav-icon">🏠</span><span
-                class="nav-lbl">INICIO</span></button>
-        <button class="nav-btn" onclick="go('habitos',this)"><span class="nav-icon">✅</span><span
-                class="nav-lbl">HÁBITOS</span></button>
-        <button class="nav-btn" onclick="go('coach',this)"><span class="nav-icon">🤖</span><span
-                class="nav-lbl">COACH</span></button>
-        <button class="nav-btn" onclick="go('finanzas',this)"><span class="nav-icon">💰</span><span
-                class="nav-lbl">FINANZAS</span></button>
-        <button class="nav-btn" onclick="go('diario',this)"><span class="nav-icon">📓</span><span
-                class="nav-lbl">DIARIO</span></button>
-        <button class="nav-btn" onclick="go('rutina',this)"><span class="nav-icon">⏱</span><span
-                class="nav-lbl">RUTINA</span></button>
-        <button class="nav-btn" onclick="go('roadmap',this)"><span class="nav-icon">🚀</span><span
-                class="nav-lbl">ROADMAP</span></button>
-        <button class="nav-btn" onclick="go('digital',this)"><span class="nav-icon">📵</span><span
-                class="nav-lbl">DIGITAL</span></button>
-        <button class="nav-btn" onclick="go('fe',this)"><span class="nav-icon">✨</span><span
-                class="nav-lbl">INTERIOR</span></button>
-    </nav>
+    <!-- DASHBOARD -->
+    <div class="fin-grid">
+        <div class="fin-box fin-wide">
+            <div class="fin-box-lbl">💰 Ahorrado este mes</div>
+            <div class="fin-box-val" style="color:var(--green)" id="fin-saved">0 €</div>
+            <div class="prog-label" style="margin-top:10px;">
+                <span id="fin-pct">0% del objetivo</span>
+                <span id="fin-goal-lbl">Meta: 300 €</span>
+            </div>
+            <div class="prog-bar">
+                <div class="prog-fill" id="fin-bar" style="width:0%"></div>
+            </div>
+        </div>
+        <div class="fin-box">
+            <div class="fin-box-lbl">📤 Gastos mes</div>
+            <div class="fin-box-val" style="color:var(--red)" id="fin-spent">0 €</div>
+            <div style="font-size:9px;color:var(--muted2);margin-top:2px;">Este mes</div>
+        </div>
+        <div class="fin-box">
+            <div class="fin-box-lbl">📥 Ingresos mes</div>
+            <div class="fin-box-val" style="color:var(--gold)" id="fin-income">0 €</div>
+            <div style="font-size:9px;color:var(--muted2);margin-top:2px;">Este mes</div>
+        </div>
+    </div>
 
-    <script>
-        // ==== DATA ====
-        var txs = [], txType = 'gasto', txCat = '🏠 Casa', goalAmt = 300;
-        var finArchive = [];
-        var currentMood = '😐';
-        var journalEntries = [];
+    <!-- AÑADIR MOVIMIENTO -->
+    <div class="card">
+        <div class="card-title">➕ AÑADIR MOVIMIENTO</div>
+        <div style="display:flex;gap:7px;margin-bottom:8px;">
+            <button class="cpill active" id="btn-g" onclick="setTxType('gasto')" style="flex:1;text-align:center;">📤
+                Gasto</button>
+            <button class="cpill" id="btn-i" onclick="setTxType('ingreso')" style="flex:1;text-align:center;">📥
+                Ingreso</button>
+        </div>
+        <input class="inp" id="tx-desc" placeholder="Descripción (ej: Compra mercadona)" style="margin-bottom:8px;">
+        <input class="inp" id="tx-amt" type="number" placeholder="Importe en €" inputmode="decimal"
+            style="margin-bottom:8px;">
+        <div class="cat-pills" id="cat-pills">
+            <button class="cpill active" onclick="setCat(this,'🏠 Casa')">🏠 Casa</button>
+            <button class="cpill" onclick="setCat(this,'🍔 Comida')">🍔 Comida</button>
+            <button class="cpill" onclick="setCat(this,'🚗 Transporte')">🚗 Trans.</button>
+            <button class="cpill" onclick="setCat(this,'💊 Salud')">💊 Salud</button>
+            <button class="cpill" onclick="setCat(this,'📚 Formación')">📚 Form.</button>
+            <button class="cpill" onclick="setCat(this,'💰 Ahorro')">💰 Ahorro</button>
+            <button class="cpill" onclick="setCat(this,'🎯 Negocio')">🎯 Negocio</button>
+            <button class="cpill" onclick="setCat(this,'📦 Otros')">📦 Otros</button>
+        </div>
+        <button class="btn" onclick="addTx()">REGISTRAR MOVIMIENTO</button>
+    </div>
 
-        // ==== NAVIGATION ====
-        function go(s, btn) {
-            var screens = document.querySelectorAll('.screen');
-            for (var i = 0; i < screens.length; i++) screens[i].classList.remove('active');
-            var btns = document.querySelectorAll('.nav-btn');
-            for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
-            document.getElementById('s-' + s).classList.add('active');
-            if (btn) btn.classList.add('active');
-            document.getElementById('s-' + s).scrollTop = 0;
-        }
-        function toggleBlock(b) { b.classList.toggle('open'); }
-        function togglePhase(b) { b.classList.toggle('open'); }
-        function toggleObj(el) {
-            el.classList.toggle('done');
-            saveData();
-        }
+    <!-- META DE AHORRO -->
+    <div class="card">
+        <div class="card-title">🎯 OBJETIVO DE AHORRO</div>
+        <div style="display:flex;gap:8px;">
+            <input class="inp" id="goal-inp" type="number" placeholder="Meta en €" inputmode="decimal" style="flex:1">
+            <button class="btn btn-sm" onclick="setGoal()">GUARDAR</button>
+        </div>
+    </div>
 
-        // ==== FINANZAS JS ====
-        function setTxType(t) {
-            txType = t;
-            document.getElementById('btn-g').className = 'cpill' + (t === 'gasto' ? ' active' : '');
-            document.getElementById('btn-i').className = 'cpill' + (t === 'ingreso' ? ' active' : '');
-        }
-        function setCat(btn, c) {
-            txCat = c;
-            var btns = document.querySelectorAll('#cat-pills .cpill');
-            for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
-            btn.classList.add('active');
-        }
-        function addTx() {
-            var desc = document.getElementById('tx-desc').value.trim();
-            var amt = parseFloat(document.getElementById('tx-amt').value);
-            if (!desc || !amt || amt <= 0) return;
-            var now = new Date();
-            txs.unshift({
-                desc: desc, amt: amt, type: txType, cat: txCat,
-                date: now.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-                ts: now.getTime()
-            });
-            document.getElementById('tx-desc').value = '';
-            document.getElementById('tx-amt').value = '';
-            updateFin();
-            saveData();
-        }
-        function setGoal() {
-            var v = parseFloat(document.getElementById('goal-inp').value);
-            if (v > 0) { goalAmt = v; updateFin(); saveData(); }
-        }
-        function addMentor() {
-            var v = document.getElementById('mentor-inp').value.trim(); if (!v) return;
-            var el = document.createElement('div'); el.className = 'mentor-tip';
-            el.innerHTML = '<div class="mentor-tip-src">Mi mentor</div><div class="mentor-tip-text">' + v + '</div>';
-            document.getElementById('mentor-inp').before(el);
-            document.getElementById('mentor-inp').value = '';
-        }
-        function updateFin() {
-            var income = 0; var spent = 0; var saved = 0;
-            for (var i = 0; i < txs.length; i++) {
-                if (txs[i].type === 'ingreso') income += txs[i].amt;
-                if (txs[i].type === 'gasto') spent += txs[i].amt;
-                if (txs[i].cat === '💰 Ahorro' && txs[i].type === 'ingreso') saved += txs[i].amt;
-            }
-            var pct = Math.min(100, Math.round(saved / goalAmt * 100));
-            document.getElementById('fin-income').textContent = income.toFixed(2) + ' €';
-            document.getElementById('fin-spent').textContent = spent.toFixed(2) + ' €';
-            document.getElementById('fin-saved').textContent = saved.toFixed(2) + ' €';
-            document.getElementById('fin-pct').textContent = pct + '% del objetivo';
-            document.getElementById('fin-goal-lbl').textContent = 'Meta: ' + goalAmt + ' €';
-            document.getElementById('fin-bar').style.width = pct + '%';
+    <!-- CONSEJOS MENTORES -->
+    <div class="card">
+        <div class="card-title">👨🏫 CONSEJOS DEL MENTOR</div>
+        <div class="mentor-tip">
+            <div class="mentor-tip-src">Robert Kiyosaki</div>
+            <div class="mentor-tip-text">"Págate a ti primero. Antes de pagar cualquier factura, aparta un % fijo para
+                ti."</div>
+        </div>
+        <div class="mentor-tip">
+            <div class="mentor-tip-src">Ramit Sethi</div>
+            <div class="mentor-tip-text">"Automatiza tus ahorros. Si tienes que decidirlo cada mes, fallarás."</div>
+        </div>
+        <div class="mentor-tip">
+            <div class="mentor-tip-src">Morgan Housel</div>
+            <div class="mentor-tip-text">"Ahorrar no es para comprarte cosas. Es para comprarte opciones y libertad."
+            </div>
+        </div>
+        <textarea class="inp" id="mentor-inp" style="min-height:65px;margin-top:8px;"
+            placeholder="Añade tu propio consejo o nota de tu mentor..."></textarea>
+        <button class="btn" onclick="addMentor()">GUARDAR CONSEJO</button>
+    </div>
 
-            var list = document.getElementById('tx-list');
-            if (!txs.length) {
-                list.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px;">Sin movimientos todavía.</div>';
-                return;
-            }
-            var html = '';
-            for (var i = 0; i < Math.min(txs.length, 20); i++) {
-                var t = txs[i];
-                html += '<div style="display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--border);">' +
-                    '<div style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:' + (t.type === 'ingreso' ? 'rgba(90,170,122,.12)' : 'rgba(231,76,60,.1)') + '">' + (t.type === 'ingreso' ? '📥' : '📤') + '</div>' +
-                    '<div style="flex:1;min-width:0;"><div style="font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + t.cat + ' · ' + t.desc + '</div><div style="font-size:10px;color:var(--muted2);margin-top:1px;">' + t.date + '</div></div>' +
-                    '<div style="font-family:Bebas Neue;font-size:18px;white-space:nowrap;color:' + (t.type === 'ingreso' ? 'var(--green)' : 'var(--red)') + '">' + (t.type === 'ingreso' ? '+' : '-') + t.amt.toFixed(2) + '€</div></div>';
-            }
-            list.innerHTML = html;
-        }
+    <!-- HISTORIAL ESTE MES -->
+    <div class="card">
+        <div class="card-title">📋 HISTORIAL — ESTE MES</div>
+        <div id="tx-list">
+            <div style="text-align:center;padding:20px;color:var(--muted);font-size:13px;">
+                Sin movimientos todavía.<br>Añade tu primer registro arriba.
+            </div>
+        </div>
+    </div>
 
-        // ==== DIARIO JS ====
-        function setTab(t) {
-            document.getElementById('panel-w').style.display = t === 'w' ? 'block' : 'none';
-            document.getElementById('panel-t').style.display = t === 't' ? 'block' : 'none';
-            document.getElementById('tab-w').style.background = t === 'w' ? 'var(--gold)' : 'var(--card)';
-            document.getElementById('tab-w').style.color = t === 'w' ? '#000' : 'var(--muted)';
-            document.getElementById('tab-t').style.background = t === 't' ? 'var(--gold)' : 'var(--card)';
-            document.getElementById('tab-t').style.color = t === 't' ? '#000' : 'var(--muted)';
-        }
-        function setMood(btn, m) {
-            currentMood = m;
-            var btns = btn.parentNode.children;
-            for (var i = 0; i < btns.length; i++) {
-                btns[i].style.borderColor = 'var(--border2)';
-                btns[i].style.background = 'none';
-            }
-            btn.style.borderColor = 'var(--gold)';
-            btn.style.background = 'rgba(245,196,0,.1)';
-        }
-        function saveEntry() {
-            var now = new Date();
-            var e = {
-                date: now.toLocaleDateString(),
-                mood: currentMood,
-                action: document.getElementById('j-accion').value,
-                attitude: document.getElementById('j-actitud').value
-            };
-            journalEntries.push(e);
-            saveData();
-            var btn = document.getElementById('save-btn');
-            var og = btn.textContent;
-            btn.textContent = '✅ GUARDADO';
-            btn.style.background = 'var(--green)';
-            setTimeout(function () { btn.textContent = og; btn.style.background = 'var(--gold)'; }, 2000);
-        }
+    <!-- ARCHIVO MENSUAL -->
+    <div class="card">
+        <div class="card-title">📊 ARCHIVO MENSUAL</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:10px;">
+            El resumen de cada mes queda archivado aquí al finalizar. Pulsa "CERRAR MES" para archivar.
+        </div>
+        <button class="btn" style="background:var(--card2);color:var(--white);border:1px solid var(--border2);"
+            onclick="closeMes()">📦 CERRAR MES Y ARCHIVAR</button>
+        <div id="fin-archive" style="margin-top:12px;"></div>
+    </div>
+</div>
 
-        // ==== PERSISTENCE ====
-        function saveData() {
-            var data = { txs: txs, goalAmt: goalAmt, journal: journalEntries };
-            localStorage.setItem('tr3c3_os_v2', JSON.stringify(data));
-        }
-        function loadData() {
-            var d = localStorage.getItem('tr3c3_os_v2');
-            if (d) {
-                d = JSON.parse(d);
-                txs = d.txs || [];
-                goalAmt = d.goalAmt || 300;
-                journalEntries = d.journal || [];
-                updateFin();
-            }
-        }
+<!-- DIARIO -->
+<div class="screen" id="s-diario">
+    <div class="page-header">
+        <div class="page-tag">Crecimiento personal</div>
+        <div class="page-title">DIARIO</div>
+        <div class="page-sub">El que escribe, se conoce</div>
+    </div>
+    <div class="d-tabs">
+        <button class="d-tab active" id="tab-w" onclick="setTab('w')">✍️ ESCRIBIR</button>
+        <button class="d-tab inactive" id="tab-t" onclick="setTab('t')">📊 TRACKLIST</button>
+    </div>
 
-        // ==== INIT ====
-        window.onload = function () {
-            loadData();
-            var now = new Date();
-            var days = ['DO', 'LU', 'MA', 'MI', 'JU', 'VI', 'SA'];
-            var months = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
-            document.getElementById('h-date').textContent = days[now.getDay()] + ' ' + now.getDate() + ' ' + months[now.getMonth()];
+    <!-- PANEL ESCRIBIR -->
+    <div id="panel-w">
 
-            // SW
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('sw.js').catch(function () { });
-            }
+        <!-- ESTADO DE HOY -->
+        <div class="card" style="margin-top:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                <div>
+                    <div style="font-family:'Bebas Neue';font-size:22px;letter-spacing:2px;color:var(--gold)"
+                        id="j-date">HOY</div>
+                    <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)"
+                        id="j-dow"></div>
+                </div>
+                <div style="font-size:11px;color:var(--muted)" id="j-time"></div>
+            </div>
+            <div class="card-title">😶 ¿CÓMO LLEGAS HOY?</div>
+            <div class="mood-row">
+                <button class="mood-btn" onclick="setMood(this,'😤')">😤</button>
+                <button class="mood-btn" onclick="setMood(this,'😞')">😞</button>
+                <button class="mood-btn active" onclick="setMood(this,'😐')">😐</button>
+                <button class="mood-btn" onclick="setMood(this,'🙂')">🙂</button>
+                <button class="mood-btn" onclick="setMood(this,'🔥')">🔥</button>
+            </div>
+        </div>
+
+        <!-- PREGUNTA PRINCIPAL — TARJETA SEPARADA CON FONDO DORADO TENUE -->
+        <div class="card" style="background:rgba(245,196,0,.04);border-color:rgba(245,196,0,.18);">
+            <div
+                style="font-family:'DM Serif Display';font-style:italic;font-size:16px;color:var(--white);line-height:1.6;margin-bottom:16px;">
+                "¿Qué necesito hoy para estar orgulloso de mí mismo al anochecer?"
+            </div>
+            <div class="field-wrap">
+                <div class="field-lbl">🎯 UNA ACCIÓN QUE ME ACERQUE A MI META</div>
+                <textarea class="inp" id="j-accion" style="min-height:70px;"
+                    placeholder="Ej: Llamar a mi amigo de transportes y quedar esta semana..."></textarea>
+            </div>
+            <div class="field-wrap">
+                <div class="field-lbl">💪 UNA ACTITUD QUE VOY A SOSTENER</div>
+                <textarea class="inp" id="j-actitud" style="min-height:70px;"
+                    placeholder="Ej: Paciencia. No desesperarme si los resultados no son inmediatos..."></textarea>
+            </div>
+            <div class="field-wrap" style="margin-bottom:0;">
+                <div class="field-lbl">🚫 UN PENSAMIENTO QUE NO VOY A PERMITIR HOY</div>
+                <textarea class="inp" id="j-pens" style="min-height:70px;"
+                    placeholder="Ej: 'Esto no va a funcionar'. Hoy no. Hoy ejecuto y confío..."></textarea>
+            </div>
+        </div>
+
+        <!-- RESUMEN COMPLETO DEL DÍA — TARJETA SEPARADA -->
+        <div class="card">
+            <div class="card-title">📝 RESUMEN COMPLETO DEL DÍA</div>
+            <div class="field-wrap">
+                <div class="field-lbl">Resumen general del día.</div>
+                <textarea class="inp" id="j-resumen" style="min-height:80px;"
+                    placeholder="¿Qué pasó hoy? Resume el día en pocas líneas..."></textarea>
+            </div>
+            <div class="field-wrap">
+                <div class="field-lbl">✅ Aspectos positivos del día.</div>
+                <textarea class="inp" id="j-pos" style="min-height:70px;"
+                    placeholder="Lo que salió bien hoy..."></textarea>
+            </div>
+            <div class="field-wrap">
+                <div class="field-lbl">❌ Aspectos negativos del día.</div>
+                <textarea class="inp" id="j-neg" style="min-height:70px;"
+                    placeholder="Lo que no salió, lo que mejorar..."></textarea>
+            </div>
+            <div class="field-wrap">
+                <div class="field-lbl">⚡ ¿Qué quiero conseguir mañana? (La mini-victoria).</div>
+                <textarea class="inp" id="j-mini" style="min-height:65px;"
+                    placeholder="Una sola cosa concreta para mañana..."></textarea>
+            </div>
+            <div class="field-wrap" style="margin-bottom:0;">
+                <div class="field-lbl">🔥 Acciones a tomar a partir de ahora.</div>
+                <textarea class="inp" id="j-acc" style="min-height:65px;"
+                    placeholder="¿Qué vas a hacer diferente o continuar?..."></textarea>
+            </div>
+            <button class="btn" id="save-btn" onclick="saveEntry()">💾 GUARDAR ENTRADA DEL DÍA</button>
+        </div>
+
+        <!-- OBJETIVOS PERSONALES -->
+        <div class="card">
+            <div class="card-title">🎯 OBJETIVOS PERSONALES</div>
+            <div id="obj-list">
+                <div class="obj-item" onclick="toggleObj(this)">
+                    <div class="obj-chk"></div>
+                    <div class="obj-text">Leer 10 páginas al día durante 30 días</div>
+                </div>
+                <div class="obj-item" onclick="toggleObj(this)">
+                    <div class="obj-chk"></div>
+                    <div class="obj-text">Hacer ejercicio 4 veces por semana</div>
+                </div>
+                <div class="obj-item" onclick="toggleObj(this)">
+                    <div class="obj-chk"></div>
+                    <div class="obj-text">Meditar o reflexionar 10 min diarios</div>
+                </div>
+                <div class="obj-item" onclick="toggleObj(this)">
+                    <div class="obj-chk"></div>
+                    <div class="obj-text">Publicar contenido 3 veces por semana</div>
+                </div>
+                <div class="obj-item" onclick="toggleObj(this)">
+                    <div class="obj-chk"></div>
+                    <div class="obj-text">Conseguir primer cliente de pago</div>
+                </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:12px;">
+                <input class="inp" id="new-obj" placeholder="Añadir objetivo..." style="flex:1">
+                <button class="btn btn-sm" onclick="addObj()" style="font-size:18px;padding:0 16px;">+</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL TRACKLIST -->
+    <div id="panel-t" style="display:none;">
+        <div class="card" style="margin-top:12px;">
+            <div class="card-title">📊 TU EVOLUCIÓN MES A MES</div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.6;">Toca cualquier entrada para verla completa.
+            </div>
+        </div>
+        <div id="tracklist"></div>
+    </div>
+</div>
+<!-- RUTINA -->
+<div class="screen" id="s-rutina">
+    <div class="page-header">
+        <div class="page-tag">Tu protocolo personal</div>
+        <div class="page-title">RUTINA</div>
+        <div class="page-sub">Estructura que libera, no que esclaviza</div>
+    </div>
+    <div class="rblock open" onclick="toggleBlock(this)" style="margin-top:12px;">
+        <div class="rblock-hdr">
+            <div class="rblock-emoji">🌅</div>
+            <div style="flex:1">
+                <div class="rblock-title">LLEGADA A CASA</div>
+                <div class="rblock-time">06:30 – 08:30h</div>
+            </div>
+            <div class="rblock-arrow">▼</div>
+        </div>
+        <div class="rblock-body">
+            <div class="rstep">
+                <div class="rstep-num">1</div>
+                <div>
+                    <div class="rstep-name">🐕 Sacar los perros</div>
+                    <div class="rstep-dur">15 min · Desconexión del trabajo</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">2</div>
+                <div>
+                    <div class="rstep-name">👶 Atender al bebé</div>
+                    <div class="rstep-dur">Biberón, vestirlo, guardería</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">3</div>
+                <div>
+                    <div class="rstep-name">🪥 Higiene y cama</div>
+                    <div class="rstep-dur">Sin móvil · Dormir antes 8:30h</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rblock" onclick="toggleBlock(this)">
+        <div class="rblock-hdr">
+            <div class="rblock-emoji">🔥</div>
+            <div style="flex:1">
+                <div class="rblock-title">RITUAL DESPERTAR</div>
+                <div class="rblock-time">15:00 – 15:30h</div>
+            </div>
+            <div class="rblock-arrow">▼</div>
+        </div>
+        <div class="rblock-body">
+            <div class="rstep">
+                <div class="rstep-num">1</div>
+                <div>
+                    <div class="rstep-name">⏰ Sin snooze</div>
+                    <div class="rstep-dur">Alarma = decisión. Decide.</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">2</div>
+                <div>
+                    <div class="rstep-name">💧 Agua + lavarse la cara</div>
+                    <div class="rstep-dur">2 min · Activa el sistema nervioso</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">3</div>
+                <div>
+                    <div class="rstep-name">🧠 Afirmación en voz alta</div>
+                    <div class="rstep-dur">2 min · Dilo como si ya fuera verdad</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">4</div>
+                <div>
+                    <div class="rstep-name">🐕 Sacar los perros</div>
+                    <div class="rstep-dur">15 min · Aire fresco</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">5</div>
+                <div>
+                    <div class="rstep-name">🎯 Escribir 1 objetivo del día</div>
+                    <div class="rstep-dur">Solo 1. Concreto. Medible.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rblock" onclick="toggleBlock(this)">
+        <div class="rblock-hdr">
+            <div class="rblock-emoji">💻</div>
+            <div style="flex:1">
+                <div class="rblock-title">BLOQUE PRODUCTIVO</div>
+                <div class="rblock-time">15:30 – 16:30h</div>
+            </div>
+            <div class="rblock-arrow">▼</div>
+        </div>
+        <div class="rblock-body">
+            <div class="rstep">
+                <div class="rstep-num">1</div>
+                <div>
+                    <div class="rstep-name">📵 Móvil en modo avión</div>
+                    <div class="rstep-dur">Sin excusas. Foco total.</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">2</div>
+                <div>
+                    <div class="rstep-name">💻 45 min trabajo real</div>
+                    <div class="rstep-dur">Seguir el Roadmap del día</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">3</div>
+                <div>
+                    <div class="rstep-name">📝 Apuntar avance</div>
+                    <div class="rstep-dur">¿Qué hice? ¿Próximo paso?</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rblock" onclick="toggleBlock(this)">
+        <div class="rblock-hdr">
+            <div class="rblock-emoji">👨👩👧</div>
+            <div style="flex:1">
+                <div class="rblock-title">TARDE EN FAMILIA</div>
+                <div class="rblock-time">16:30 – 21:00h</div>
+            </div>
+            <div class="rblock-arrow">▼</div>
+        </div>
+        <div class="rblock-body">
+            <div class="rstep">
+                <div class="rstep-num">1</div>
+                <div>
+                    <div class="rstep-name">👶 Tiempo con el bebé</div>
+                    <div class="rstep-dur">Sin móvil en mano. Presente.</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">2</div>
+                <div>
+                    <div class="rstep-name">🏃 Ejercicio si hay hueco</div>
+                    <div class="rstep-dur">20-30 min · Caminar cuenta</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">3</div>
+                <div>
+                    <div class="rstep-name">🍽 Cena y preparar salida</div>
+                    <div class="rstep-dur">20:30h · Comer bien</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">4</div>
+                <div>
+                    <div class="rstep-name">🐕 Último paseo perros</div>
+                    <div class="rstep-dur">~20:30-21:00h</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rblock" onclick="toggleBlock(this)">
+        <div class="rblock-hdr">
+            <div class="rblock-emoji">🌙</div>
+            <div style="flex:1">
+                <div class="rblock-title">TURNO DE TRABAJO</div>
+                <div class="rblock-time">22:00 – 06:00h</div>
+            </div>
+            <div class="rblock-arrow">▼</div>
+        </div>
+        <div class="rblock-body">
+            <div class="rstep">
+                <div class="rstep-num">1</div>
+                <div>
+                    <div class="rstep-name">📚 20 min formación IA</div>
+                    <div class="rstep-dur">Curso del día · Tutorial</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">2</div>
+                <div>
+                    <div class="rstep-name">🧠 10 min subconsciente</div>
+                    <div class="rstep-dur">Afirmaciones · Visualización</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">3</div>
+                <div>
+                    <div class="rstep-name">✨ 5 min de gratitud interior</div>
+                    <div class="rstep-dur">Silencio · Conexión · Reflexión</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">4</div>
+                <div>
+                    <div class="rstep-name">📈 Checklist trading</div>
+                    <div class="rstep-dur">Psicología antes de operar</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sec-title">🧹 LIMPIEZA SEMANAL</div>
+    <div class="rblock" onclick="toggleBlock(this)">
+        <div class="rblock-hdr">
+            <div class="rblock-emoji">🚿</div>
+            <div style="flex:1">
+                <div class="rblock-title">LUNES · Baños</div>
+                <div class="rblock-time">~25 min antes de las 16:30h</div>
+            </div>
+            <div class="rblock-arrow">▼</div>
+        </div>
+        <div class="rblock-body">
+            <div class="rstep">
+                <div class="rstep-num">1</div>
+                <div>
+                    <div class="rstep-name">Limpiar lavabo y espejo</div>
+                    <div class="rstep-dur">8 min</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">2</div>
+                <div>
+                    <div class="rstep-name">Ducha/bañera</div>
+                    <div class="rstep-dur">10 min</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">3</div>
+                <div>
+                    <div class="rstep-name">WC + suelo baño</div>
+                    <div class="rstep-dur">7 min</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rblock" onclick="toggleBlock(this)">
+        <div class="rblock-hdr">
+            <div class="rblock-emoji">🧹</div>
+            <div style="flex:1">
+                <div class="rblock-title">MARTES · Cocina + salón</div>
+                <div class="rblock-time">~30 min antes de las 16:30h</div>
+            </div>
+            <div class="rblock-arrow">▼</div>
+        </div>
+        <div class="rblock-body">
+            <div class="rstep">
+                <div class="rstep-num">1</div>
+                <div>
+                    <div class="rstep-name">Encimeras y fogones</div>
+                    <div class="rstep-dur">10 min</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">2</div>
+                <div>
+                    <div class="rstep-name">Aspiradora salón</div>
+                    <div class="rstep-dur">10 min</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">3</div>
+                <div>
+                    <div class="rstep-name">Fregar suelo cocina</div>
+                    <div class="rstep-dur">10 min</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rblock" onclick="toggleBlock(this)">
+        <div class="rblock-hdr">
+            <div class="rblock-emoji">🛏</div>
+            <div style="flex:1">
+                <div class="rblock-title">JUEVES · Habitaciones</div>
+                <div class="rblock-time">~30 min antes de las 16:30h</div>
+            </div>
+            <div class="rblock-arrow">▼</div>
+        </div>
+        <div class="rblock-body">
+            <div class="rstep">
+                <div class="rstep-num">1</div>
+                <div>
+                    <div class="rstep-name">Cambiar sábanas</div>
+                    <div class="rstep-dur">15 min</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">2</div>
+                <div>
+                    <div class="rstep-name">Quitar polvo muebles</div>
+                    <div class="rstep-dur">8 min</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">3</div>
+                <div>
+                    <div class="rstep-name">Aspirar habitaciones</div>
+                    <div class="rstep-dur">7 min</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rblock" onclick="toggleBlock(this)">
+        <div class="rblock-hdr">
+            <div class="rblock-emoji">🌊</div>
+            <div style="flex:1">
+                <div class="rblock-title">VIERNES · Limpieza general</div>
+                <div class="rblock-time">~45 min · Con tu mujer</div>
+            </div>
+            <div class="rblock-arrow">▼</div>
+        </div>
+        <div class="rblock-body">
+            <div class="rstep">
+                <div class="rstep-num">1</div>
+                <div>
+                    <div class="rstep-name">Fregar todos los suelos</div>
+                    <div class="rstep-dur">20 min</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">2</div>
+                <div>
+                    <div class="rstep-name">Cristales y ventanas</div>
+                    <div class="rstep-dur">15 min</div>
+                </div>
+            </div>
+            <div class="rstep">
+                <div class="rstep-num">3</div>
+                <div>
+                    <div class="rstep-name">Organizar armarios bebé</div>
+                    <div class="rstep-dur">10 min</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ROADMAP -->
+<div class="screen" id="s-roadmap">
+    <div class="page-header">
+        <div class="page-tag">Plan de negocio real</div>
+        <div class="page-title">ROADMAP</div>
+        <div class="page-sub">De 0€ a 1.000€ con IA en 30 días</div>
+    </div>
+    <div class="goal-banner fade-in">
+        <div class="goal-num">1.000€</div>
+        <div class="goal-sub">Objetivo · 30 días</div>
+        <div class="goal-desc">Automatizaciones IA para empresas · Primer cliente: amigo transportes · LinkedIn +
+            contenido · 60-90 min diarios</div>
+    </div>
+    <div class="rphase open" onclick="togglePhase(this)" style="margin-top:8px;">
+        <div class="rphase-hdr">
+            <div class="rphase-num">1</div>
+            <div style="flex:1">
+                <div class="rphase-title">CIMIENTOS</div>
+                <div class="rphase-days">Días 1–7 · Preparar el terreno</div>
+            </div>
+            <div class="rphase-arrow">▼</div>
+        </div>
+        <div class="rphase-body">
+            <div class="phase-obj"><strong>Objetivo:</strong> Define qué vendes, a quién y cómo. Cierra tu primer
+                cliente (amigo transportes) gratis a cambio de testimonio.</div>
+            <div class="ptask">
+                <div class="ptask-day">D1–2</div>
+                <div>
+                    <div class="ptask-name">Define tu servicio exacto</div>
+                    <div class="ptask-desc">Elige UNO: <em>Automatización WhatsApp Business</em> para transportes.
+                        Responde presupuestos y seguimiento 24/7.</div>
+                </div>
+            </div>
+            <div class="ptask">
+                <div class="ptask-day">D3</div>
+                <div>
+                    <div class="ptask-name">Aprende Make.com en 1 día</div>
+                    <div class="ptask-desc">Instala <em>Make.com (gratis)</em>. 3 tutoriales YouTube. Crea un flujo
+                        simple de prueba.</div>
+                </div>
+            </div>
+            <div class="ptask">
+                <div class="ptask-day">D4–5</div>
+                <div>
+                    <div class="ptask-name">Construye la demo</div>
+                    <div class="ptask-desc">Bot WhatsApp: recibe pedido → confirma → envía estado. <em>Graba la
+                            pantalla.</em></div>
+                </div>
+            </div>
+            <div class="ptask">
+                <div class="ptask-day">D6</div>
+                <div>
+                    <div class="ptask-name">Conversación con tu amigo</div>
+                    <div class="ptask-desc">No vendas. <em>Pregunta sus problemas</em> primero. Luego muestra la demo.
+                    </div>
+                </div>
+            </div>
+            <div class="ptask">
+                <div class="ptask-day">D7</div>
+                <div>
+                    <div class="ptask-name">Cierra el primer cliente GRATIS</div>
+                    <div class="ptask-desc">A cambio de: <em>testimonial en vídeo + referir a otros transportistas.</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rphase" onclick="togglePhase(this)">
+        <div class="rphase-hdr">
+            <div class="rphase-num">2</div>
+            <div style="flex:1">
+                <div class="rphase-title">VISIBILIDAD</div>
+                <div class="rphase-days">Días 8–15 · Aparecer y generar confianza</div>
+            </div>
+            <div class="rphase-arrow">▼</div>
+        </div>
+        <div class="rphase-body">
+            <div class="phase-obj"><strong>Objetivo:</strong> Presencia en LinkedIn + TikTok mostrando el proceso. No
+                necesitas ser experto — necesitas ser honesto y consistente.</div>
+            <div class="ptask">
+                <div class="ptask-day">D8</div>
+                <div>
+                    <div class="ptask-name">Perfil LinkedIn optimizado</div>
+                    <div class="ptask-desc">Titular: <em>"Ayudo a empresas a automatizar su comunicación con IA"</em>.
+                        Foto + 3 líneas bio.</div>
+                </div>
+            </div>
+            <div class="ptask">
+                <div class="ptask-day">D9–10</div>
+                <div>
+                    <div class="ptask-name">Primer vídeo de contenido</div>
+                    <div class="ptask-desc"><em>"Cómo automaticé WhatsApp de una empresa de transporte en 1 día"</em>.
+                        iPhone + pantalla. LinkedIn + TikTok.</div>
+                </div>
+            </div>
+            <div class="ptask">
+                <div class="ptask-day">D11–13</div>
+                <div>
+                    <div class="ptask-name">2 vídeos más del proceso</div>
+                    <div class="ptask-desc">Errores cometidos · Qué pregunté al primer cliente. <em>La honestidad
+                            engancha.</em></div>
+                </div>
+            </div>
+            <div class="ptask">
+                <div class="ptask-day">D14–15</div>
+                <div>
+                    <div class="ptask-name">Conectar con 20 empresas</div>
+                    <div class="ptask-desc">LinkedIn: <em>"¿Cómo gestionáis las consultas de clientes fuera de
+                            horario?"</em></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rphase" onclick="togglePhase(this)">
+        <div class="rphase-hdr">
+            <div class="rphase-num">3</div>
+            <div style="flex:1">
+                <div class="rphase-title">PRIMERA VENTA</div>
+                <div class="rphase-days">Días 16–22 · Convertir interés en dinero</div>
+            </div>
+            <div class="rphase-arrow">▼</div>
+        </div>
+        <div class="rphase-body">
+            <div class="phase-obj"><strong>Objetivo:</strong> 1 cliente de pago. Precio inicial:
+                <strong>300–500€</strong>. Con el testimonio de tu amigo como herramienta de ventas.</div>
+            <div class="ptask">
+                <div class="ptask-day">D16</div>
+                <div>
+                    <div class="ptask-name">Consigue el vídeo testimonio</div>
+                    <div class="ptask-desc"><em>30 seg: qué problema tenía + cómo lo resolviste.</em> Tu herramienta de
+                        ventas #1.</div>
+                </div>
+            </div>
+            <div class="ptask">
+                <div class="ptask-day">D17–18</div>
+                <div>
+                    <div class="ptask-name">Propuesta de valor en 1 párrafo</div>
+                    <div class="ptask-desc"><em>"Automatizo WhatsApp de tu empresa para que nunca pierdas un cliente.
+                            48h. Garantía."</em></div>
+                </div>
+            </div>
+            <div class="ptask">
+                <div class="ptask-day">D19–20</div>
+                <div>
+                    <div class="ptask-name">10 llamadas cortas</div>
+                    <div class="ptask-desc">Solo 15 min. <em>Escucha 80%, habla 20%.</em> No vendas en el primer
+                        mensaje.</div>
+                </div>
+            </div>
+            <div class="ptask">
+                <div class="ptask-day">D21–22</div>
+                <div>
+                    <div class="ptask-name">Envía propuesta y cierra</div>
+                    <div class="ptask-desc">Precio: <em>300€ implementación + 100€/mes.</em> "¿Lo arrancamos esta
+                        semana?"</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rphase" onclick="togglePhase(this)">
+        <div class="rphase-hdr">
+            <div class="rphase-num">4</div>
+            <div style="flex:1">
+                <div class="rphase-title">ESCALAR A 1.000€</div>
+                <div class="rphase-days">Días 23–30 · Multiplicar</div>
+            </div>
+            <div class="rphase-arrow">▼</div>
+        </div>
+        <div class="rphase-body">
+            <div class="phase-obj"><strong>Meta:</strong> 2×300€ + 1×100€/mes = <strong>1.000€</strong></div>
+            <div class="ptask">
+                <div class="ptask-day">D23–25</div>
+                <div>
+                    <div class="ptask-name">Pide referidos activamente</div>
+                    <div class="ptask-desc"><em>"¿Conoces a alguien con este problema?"</em> Tu cliente gratis tiene
+                        contactos.</div>
+                </div>
+            </div>
+            <div class="ptask">
+                <div class="ptask-day">D26–27</div>
+                <div>
+                    <div class="ptask-name">Expande a otros sectores</div>
+                    <div class="ptask-desc">Fontaneros, electricistas, tiendas. <em>Mismo servicio, otro sector.</em>
+                    </div>
+                </div>
+            </div>
+            <div class="ptask">
+                <div class="ptask-day">D28–29</div>
+                <div>
+                    <div class="ptask-name">Caso de éxito en LinkedIn</div>
+                    <div class="ptask-desc"><em>Con números reales.</em> "Automaticé WhatsApp de X empresa. Resultado:
+                        Y."</div>
+                </div>
+            </div>
+            <div class="ptask">
+                <div class="ptask-day">D30</div>
+                <div>
+                    <div class="ptask-name">Revisión total + mes 2</div>
+                    <div class="ptask-desc"><em>¿Llegaste a 1000€? Dobla. ¿No llegaste? Habla con el Coach y
+                            ajusta.</em></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DESCONEXIÓN DIGITAL -->
+<div class="screen" id="s-digital">
+    <div class="page-header">
+        <div class="page-tag">Estoicismo digital</div>
+        <div class="page-title">DESCONEXIÓN</div>
+        <div class="page-sub">Las redes son una herramienta. Tú decides quién las agarra.</div>
+    </div>
+    <div class="card" style="margin-top:14px;background:rgba(245,196,0,.04);border-color:rgba(245,196,0,.18);">
+        <div
+            style="font-family:'DM Serif Display';font-style:italic;font-size:15px;color:var(--white);line-height:1.7;margin-bottom:6px;">
+            "¿Esto me acerca a los 1000€ o me aleja?"</div>
+        <div style="font-size:12px;color:var(--muted);">Si aleja → cierra la app ahora mismo.</div>
+    </div>
+    <div class="card">
+        <div class="card-title">📊 SEMANA 1 · CONCIENCIA · DÍAS 1–7</div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Activa Screen Time y mide el tiempo real en cada red</div>
+        </div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Elimina notificaciones push de Instagram, TikTok, YouTube</div>
+        </div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Límite diario: máx 30 min en redes de entretenimiento</div>
+        </div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Regla del propósito: dite en voz alta para qué abres cada app</div>
+        </div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Anota en papel cada vez que abres una red por impulso</div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title">✂️ SEMANA 2 · RUPTURA · DÍAS 8–14</div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Elimina TikTok del móvil — solo creas, desde ordenador</div>
+        </div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Instagram solo versión web, sin app instalada</div>
+        </div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Vacío digital nocturno: sin redes después de las 21:00h</div>
+        </div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Sustituye el scroll por: lectura, audio de formación o el diario</div>
+        </div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Sigue solo cuentas de negocio o aprendizaje</div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title">🔁 SEMANA 3 · REDIRECCIÓN · DÍAS 15–21</div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Redes = trabajo únicamente. Publicas, respondes, métricas.</div>
+        </div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Crea sin consumir: al publicar, no mires el feed</div>
+        </div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Mañana sin móvil: primeras 2h del despertar (15:00–17:00h)</div>
+        </div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Publicar te da energía, consumir te la quita — obsérvalo</div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title">🏛 SEMANA 4 · ESTOICISMO · DÍAS 22–30</div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">LinkedIn y YouTube = herramientas de negocio</div>
+        </div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Instagram/TikTok = solo distribución de contenido propio</div>
+        </div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">1 día de desconexión total a la semana</div>
+        </div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Revisa qué ganaste: tiempo, foco, presencia con tu hijo</div>
+        </div>
+        <div class="obj-item" onclick="toggleObj(this)">
+            <div class="obj-chk"></div>
+            <div class="obj-text">Comparte tu transformación — es tu primer caso de éxito</div>
+        </div>
+    </div>
+</div>
+
+<!-- INTERIOR -->
+<div class="screen" id="s-fe">
+    <div class="page-header">
+        <div class="page-tag">Mundo interior</div>
+        <div class="page-title">INTERIOR</div>
+        <div class="page-sub">Crecer por dentro es crecer de verdad</div>
+    </div>
+    <div class="card" style="margin-top:14px;">
+        <div class="card-title">🌱 PARA QUIEN EMPIEZA DESDE CERO</div>
+        <div class="spirit-guide">
+            <div class="spirit-guide-title">¿Qué es esto?</div>
+            <div class="spirit-guide-text">Espiritualidad no es religión. Es conectar contigo mismo — con lo que
+                sientes, lo que valoras y lo que te guía cuando todo falla. <strong>Tú decides qué nombre le
+                    das.</strong></div>
+        </div>
+        <div class="spirit-guide" style="margin-bottom:0;">
+            <div class="spirit-guide-title">Por qué importa ahora</div>
+            <div class="spirit-guide-text">Después de una pérdida fuerte, necesitas algo más sólido que el dinero. Ese
+                ancla puede ser tu hijo, tus valores, o algo más grande.</div>
+        </div>
+    </div>
+    <div class="spirit-card fade-in">
+        <div class="spirit-lbl">✦ Reflexión del día</div>
+        <div class="spirit-text" id="spirit-text">"No puedes controlar lo que te pasa. Solo cómo respondes."</div>
+        <div class="spirit-ref" id="spirit-ref">— Marco Aurelio</div>
+    </div>
+    <div class="card fade-in">
+        <div class="card-title">🌿 PRÁCTICAS DE HOY</div>
+        <div class="spirit-practice" onclick="toggleSpirit(this)">
+            <div class="sp-chk"></div>
+            <div>
+                <div class="sp-name">2 min de silencio consciente</div>
+                <div class="sp-desc">Siéntate. Cierra los ojos. Solo observa tus pensamientos sin juzgarlos.</div>
+            </div>
+        </div>
+        <div class="spirit-practice" onclick="toggleSpirit(this)">
+            <div class="sp-chk"></div>
+            <div>
+                <div class="sp-name">Escribe 1 cosa por la que estar agradecido</div>
+                <div class="sp-desc">La gratitud entrena al cerebro a buscar lo bueno incluso en días difíciles.</div>
+            </div>
+        </div>
+        <div class="spirit-practice" onclick="toggleSpirit(this)">
+            <div class="sp-chk"></div>
+            <div>
+                <div class="sp-name">1 minuto con tu hijo sin distracciones</div>
+                <div class="sp-desc">Míralo. Siente lo que sientes. Eso es tu ancla más poderosa.</div>
+            </div>
+        </div>
+        <div class="spirit-practice" onclick="toggleSpirit(this)">
+            <div class="sp-chk"></div>
+            <div>
+                <div class="sp-name">Lee 1 reflexión estoica</div>
+                <div class="sp-desc">Marco Aurelio, Epicteto, Séneca. Empezamos por aquí.</div>
+            </div>
+        </div>
+        <div class="spirit-practice" onclick="toggleSpirit(this)">
+            <div class="sp-chk"></div>
+            <div>
+                <div class="sp-name">Di tu afirmación en voz alta</div>
+                <div class="sp-desc">Lo que te dices cada día acaba siendo tu realidad.</div>
+            </div>
+        </div>
+    </div>
+    <div class="card fade-in">
+        <div class="card-title">🗺 CAMINOS A EXPLORAR</div>
+        <div class="rblock" onclick="toggleBlock(this)" style="margin:0 0 7px;border-color:var(--border2);">
+            <div class="rblock-hdr" style="padding:11px 13px;">
+                <div class="rblock-emoji">🏛</div>
+                <div style="flex:1">
+                    <div class="rblock-title">ESTOICISMO</div>
+                    <div class="rblock-time">Empezar aquí</div>
+                </div>
+                <div class="rblock-arrow">▼</div>
+            </div>
+            <div class="rblock-body" style="padding:0 13px 11px;">
+                <div class="rstep">
+                    <div class="rstep-num">▶</div>
+                    <div>
+                        <div class="rstep-name">Idea central</div>
+                        <div class="rstep-dur">Solo controlas tus acciones y pensamientos. Todo lo demás, suéltalo.
+                        </div>
+                    </div>
+                </div>
+                <div class="rstep">
+                    <div class="rstep-num">▶</div>
+                    <div>
+                        <div class="rstep-name">Para empezar</div>
+                        <div class="rstep-dur">Libro: "Meditaciones" de Marco Aurelio · Podcast: "El Estoico" en Spotify
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rblock" onclick="toggleBlock(this)" style="margin:0 0 7px;border-color:var(--border2);">
+            <div class="rblock-hdr" style="padding:11px 13px;">
+                <div class="rblock-emoji">🧘</div>
+                <div style="flex:1">
+                    <div class="rblock-title">MINDFULNESS</div>
+                    <div class="rblock-time">Presencia y calma</div>
+                </div>
+                <div class="rblock-arrow">▼</div>
+            </div>
+            <div class="rblock-body" style="padding:0 13px 11px;">
+                <div class="rstep">
+                    <div class="rstep-num">▶</div>
+                    <div>
+                        <div class="rstep-name">Técnica 4-7-8</div>
+                        <div class="rstep-dur">Inhala 4 seg · Aguanta 7 seg · Exhala 8 seg. 3 veces.</div>
+                    </div>
+                </div>
+                <div class="rstep">
+                    <div class="rstep-num">▶</div>
+                    <div>
+                        <div class="rstep-name">App recomendada</div>
+                        <div class="rstep-dur">Calm o Headspace · 10 min al día</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rblock" onclick="toggleBlock(this)" style="margin:0 0 7px;border-color:var(--border2);">
+            <div class="rblock-hdr" style="padding:11px 13px;">
+                <div class="rblock-emoji">✝️</div>
+                <div style="flex:1">
+                    <div class="rblock-title">FE CRISTIANA</div>
+                    <div class="rblock-time">Si quieres explorar</div>
+                </div>
+                <div class="rblock-arrow">▼</div>
+            </div>
+            <div class="rblock-body" style="padding:0 13px 11px;">
+                <div class="rstep">
+                    <div class="rstep-num">▶</div>
+                    <div>
+                        <div class="rstep-name">¿Qué es?</div>
+                        <div class="rstep-dur">Una relación personal, no de reglas. La idea: no estás solo y eres amado
+                            incluso en tus peores momentos.</div>
+                    </div>
+                </div>
+                <div class="rstep">
+                    <div class="rstep-num">▶</div>
+                    <div>
+                        <div class="rstep-name">Para empezar sin presión</div>
+                        <div class="rstep-dur">Habla en silencio. Dile lo que sientes. No hace falta saber rezar.</div>
+                    </div>
+                </div>
+                <div class="rstep">
+                    <div class="rstep-num">▶</div>
+                    <div>
+                        <div class="rstep-name">Podcast recomendado</div>
+                        <div class="rstep-dur">"Alpha Course" en español — fe sin compromisos.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rblock" onclick="toggleBlock(this)" style="margin:0;border-color:var(--border2);">
+            <div class="rblock-hdr" style="padding:11px 13px;">
+                <div class="rblock-emoji">🔥</div>
+                <div style="flex:1">
+                    <div class="rblock-title">SUBCONSCIENTE</div>
+                    <div class="rblock-time">Programar la mente</div>
+                </div>
+                <div class="rblock-arrow">▼</div>
+            </div>
+            <div class="rblock-body" style="padding:0 13px 11px;">
+                <div class="rstep">
+                    <div class="rstep-num">▶</div>
+                    <div>
+                        <div class="rstep-name">Idea central</div>
+                        <div class="rstep-dur">El 95% de tus decisiones las toma el subconsciente. Lo que le metes cada
+                            noche define quién serás.</div>
+                    </div>
+                </div>
+                <div class="rstep">
+                    <div class="rstep-num">▶</div>
+                    <div>
+                        <div class="rstep-name">Libro</div>
+                        <div class="rstep-dur">"El poder del subconsciente" — Joseph Murphy. Audiolibro en YouTube
+                            (gratis).</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card fade-in">
+        <div class="card-title">🙏 3 COSAS DE GRATITUD HOY</div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)">
+            <div style="font-family:'Bebas Neue';font-size:20px;color:var(--gold);min-width:20px">1</div><input
+                class="inp" placeholder="Algo por lo que estar agradecido..."
+                style="border:none;background:none;padding:4px 0;font-size:13px;color:var(--muted)">
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)">
+            <div style="font-family:'Bebas Neue';font-size:20px;color:var(--gold);min-width:20px">2</div><input
+                class="inp" placeholder="Algo por lo que estar agradecido..."
+                style="border:none;background:none;padding:4px 0;font-size:13px;color:var(--muted)">
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px 0">
+            <div style="font-family:'Bebas Neue';font-size:20px;color:var(--gold);min-width:20px">3</div><input
+                class="inp" placeholder="Algo por lo que estar agradecido..."
+                style="border:none;background:none;padding:4px 0;font-size:13px;color:var(--muted)">
+        </div>
+    </div>
+    <div class="card fade-in">
+        <div class="card-title">🧠 AFIRMACIÓN DE HOY</div>
+        <div class="affirmation-box">
+            <div class="affirmation-text" id="aff-text">"Soy un padre presente, un emprendedor imparable y un hombre que
+                crece cada día."</div>
+        </div>
+        <button class="btn" onclick="nextAff()">SIGUIENTE →</button>
+    </div>
+    <div class="card fade-in">
+        <div class="card-title">📈 PSICOLOGÍA TRADING</div>
+        <div class="trading-row" onclick="chkToggle(this)">
+            <div class="tcheck"></div>
+            <div>
+                <div class="trading-rule">No opero si estoy emocionalmente alterado</div>
+                <div class="trading-desc">El mercado no sabe que estás enfadado. Tú sí.</div>
+            </div>
+        </div>
+        <div class="trading-row" onclick="chkToggle(this)">
+            <div class="tcheck"></div>
+            <div>
+                <div class="trading-rule">Stop loss definido ANTES de entrar</div>
+                <div class="trading-desc">El plan va antes del dinero, siempre.</div>
+            </div>
+        </div>
+        <div class="trading-row" onclick="chkToggle(this)">
+            <div class="tcheck"></div>
+            <div>
+                <div class="trading-rule">No persigo trades perdidos</div>
+                <div class="trading-desc">Perder una operación no define nada. Perder el control, sí.</div>
+            </div>
+        </div>
+        <div class="trading-row" onclick="chkToggle(this)">
+            <div class="tcheck"></div>
+            <div>
+                <div class="trading-rule">Respeto mi tamaño de posición</div>
+                <div class="trading-desc">Las reglas existen para cuando menos quieres seguirlas.</div>
+            </div>
+        </div>
+        <div class="trading-row" onclick="chkToggle(this)">
+            <div class="tcheck"></div>
+            <div>
+                <div class="trading-rule">Si rompo una regla, la anoto</div>
+                <div class="trading-desc">El diario de trading es tu espejo más honesto.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- NAV -->
+<nav>
+    <button class="nav-btn active" onclick="go('home',this)"><span class="nav-icon">🏠</span><span
+            class="nav-lbl">INICIO</span></button>
+    <button class="nav-btn" onclick="go('habitos',this)"><span class="nav-icon">✅</span><span
+            class="nav-lbl">HÁBITOS</span></button>
+    <button class="nav-btn" onclick="go('coach',this)"><span class="nav-icon">🤖</span><span
+            class="nav-lbl">COACH</span></button>
+    <button class="nav-btn" onclick="go('finanzas',this)"><span class="nav-icon">💰</span><span
+            class="nav-lbl">FINANZAS</span></button>
+    <button class="nav-btn" onclick="go('diario',this)"><span class="nav-icon">📓</span><span
+            class="nav-lbl">DIARIO</span></button>
+    <button class="nav-btn" onclick="go('rutina',this)"><span class="nav-icon">⏱</span><span
+            class="nav-lbl">RUTINA</span></button>
+    <button class="nav-btn" onclick="go('roadmap',this)"><span class="nav-icon">🚀</span><span
+            class="nav-lbl">ROADMAP</span></button>
+    <button class="nav-btn" onclick="go('digital',this)"><span class="nav-icon">📵</span><span
+            class="nav-lbl">DIGITAL</span></button>
+    <button class="nav-btn" onclick="go('fe',this)"><span class="nav-icon">✨</span><span
+            class="nav-lbl">INTERIOR</span></button>
+</nav>
+</div>
+<script>
+    // SERVICE WORKER
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () { }); });
+    }
+
+    // FECHA Y HORA
+    var NOW = new Date();
+    var H = NOW.getHours();
+    var DIAS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    var MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+    var MESES_L = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+    document.getElementById('greeting').textContent = H >= 5 && H < 14 ? 'Buenos días' : H >= 14 && H < 21 ? 'Buenas tardes' : 'Buenas noches';
+    document.getElementById('coach-time').textContent = NOW.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
+    document.getElementById('home-date').textContent = DIAS[NOW.getDay()] + ' ' + NOW.getDate() + ' ' + MESES[NOW.getMonth()];
+    document.getElementById('j-date').textContent = NOW.getDate() + ' ' + MESES[NOW.getMonth()].toUpperCase();
+    document.getElementById('j-dow').textContent = DIAS[NOW.getDay()];
+    document.getElementById('j-time').textContent = NOW.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
+
+    // NAV
+    function go(s, btn) {
+        document.querySelectorAll('.screen').forEach(function (x) { x.classList.remove('active'); });
+        document.querySelectorAll('.nav-btn').forEach(function (x) { x.classList.remove('active'); });
+        document.getElementById('s-' + s).classList.add('active');
+        btn.classList.add('active');
+        document.getElementById('s-' + s).scrollTop = 0;
+    }
+
+    // MOTIVATORS
+    var MOTIVATORS = [
+        "Tu hijo está mirando. No al que eres hoy — al que estás eligiendo ser.",
+        "El golpe del trading no te definió. Cómo te levantas, sí.",
+        "Un 1% mejor cada día. En un año serás otro.",
+        "La disciplina es libertad. El caos es la verdadera prisión.",
+        "Cada hábito completado dice: soy alguien que cumple.",
+        "Tu primer cliente ya existe. Solo falta la conversación.",
+        "No necesitas motivación. Necesitas un sistema. Y lo tienes."
+    ];
+    var mIdx = 0;
+    setInterval(function () {
+        mIdx = (mIdx + 1) % MOTIVATORS.length;
+        var el = document.getElementById('motivator-txt');
+        el.style.opacity = 0;
+        setTimeout(function () { el.textContent = MOTIVATORS[mIdx]; el.style.opacity = 1; }, 300);
+    }, 9000);
+
+    // HÁBITOS
+    var habDone = {};
+    function toggleHab(el) {
+        var id = el.dataset.id;
+        if (habDone[id]) {
+            delete habDone[id];
+            el.classList.remove('done');
+            el.querySelector('.hab-chk').textContent = '';
+        } else {
+            habDone[id] = true;
+            el.classList.add('done');
+            el.querySelector('.hab-chk').textContent = '✓';
+        }
+        var n = Object.keys(habDone).length, t = 8, p = Math.round(n / t * 100);
+        document.getElementById('hab-done-lbl').textContent = n + ' completados';
+        document.getElementById('hab-pct-lbl').textContent = p + '%';
+        document.getElementById('hab-bar').style.width = p + '%';
+        document.getElementById('s-habits').textContent = n + '/' + t;
+        document.getElementById('s-wins').textContent = n;
+    }
+
+    // BLOQUES RUTINA / ROADMAP
+    function toggleBlock(b) { b.classList.toggle('open'); }
+    function togglePhase(b) { b.classList.toggle('open'); }
+
+    // OBJETIVOS
+    function toggleObj(el) {
+        el.classList.toggle('done');
+        el.querySelector('.obj-chk').textContent = el.classList.contains('done') ? '✓' : '';
+    }
+    function addObj() {
+        var inp = document.getElementById('new-obj');
+        var v = inp.value.trim(); if (!v) return;
+        var el = document.createElement('div');
+        el.className = 'obj-item';
+        el.onclick = function () { toggleObj(this); };
+        el.innerHTML = '<div class="obj-chk"></div><div class="obj-text">' + v + '</div>';
+        document.getElementById('obj-list').appendChild(el);
+        inp.value = '';
+    }
+
+    // MOOD
+    var currentMood = '😐';
+    function setMood(btn, m) {
+        document.querySelectorAll('.mood-btn').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        currentMood = m;
+    }
+
+    // DIARIO TABS
+    function setTab(tab) {
+        document.getElementById('panel-w').style.display = tab === 'w' ? 'block' : 'none';
+        document.getElementById('panel-t').style.display = tab === 't' ? 'block' : 'none';
+        document.getElementById('tab-w').className = 'd-tab ' + (tab === 'w' ? 'active' : 'inactive');
+        document.getElementById('tab-t').className = 'd-tab ' + (tab === 't' ? 'active' : 'inactive');
+        if (tab === 't') renderTracklist();
+    }
+
+    // JOURNAL
+    var journalEntries = [];
+    function saveEntry() {
+        var accion = document.getElementById('j-accion').value.trim();
+        var actitud = document.getElementById('j-actitud').value.trim();
+        var pens = document.getElementById('j-pens').value.trim();
+        var resumen = document.getElementById('j-resumen').value.trim();
+        var pos = document.getElementById('j-pos').value.trim();
+        var neg = document.getElementById('j-neg').value.trim();
+        var mini = document.getElementById('j-mini').value.trim();
+        var acc = document.getElementById('j-acc').value.trim();
+        if (!accion && !resumen) { alert('Escribe al menos la acción del día o el resumen.'); return; }
+        var entry = {
+            id: Date.now(),
+            date: NOW.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+            d: NOW.getDate(), m: NOW.getMonth(), y: NOW.getFullYear(),
+            day: DIAS[NOW.getDay()],
+            time: NOW.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' }),
+            mood: currentMood,
+            accion: accion, actitud: actitud, pens: pens,
+            resumen: resumen, pos: pos, neg: neg, mini: mini, acc: acc
         };
-    </script>
+        var idx = -1;
+        for (var i = 0; i < journalEntries.length; i++) {
+            if (journalEntries[i].d === entry.d && journalEntries[i].m === entry.m && journalEntries[i].y === entry.y) { idx = i; break; }
+        }
+        if (idx > -1) journalEntries[idx] = entry;
+        else journalEntries.unshift(entry);
+        var ids = ['j-accion', 'j-actitud', 'j-pens', 'j-resumen', 'j-pos', 'j-neg', 'j-mini', 'j-acc'];
+        for (var i = 0; i < ids.length; i++) { document.getElementById(ids[i]).value = ''; }
+        var btn = document.getElementById('save-btn');
+        btn.textContent = '✅ GUARDADO';
+        btn.style.background = 'var(--green)';
+        setTimeout(function () { btn.textContent = '💾 GUARDAR ENTRADA DEL DÍA'; btn.style.background = 'var(--gold)'; }, 2000);
+    }
+
+    function renderTracklist() {
+        var c = document.getElementById('tracklist');
+        if (!journalEntries.length) {
+            c.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;line-height:1.8;">Aún no tienes entradas.<br><span style="color:var(--gold)">Escribe tu primer día</span><br>y aquí quedará el registro.</div>';
+            return;
+        }
+        var byMonth = {};
+        for (var i = 0; i < journalEntries.length; i++) {
+            var e = journalEntries[i];
+            var key = e.y + '-' + e.m;
+            if (!byMonth[key]) byMonth[key] = { label: MESES_L[e.m] + ' ' + e.y, entries: [] };
+            byMonth[key].entries.push(e);
+        }
+        var html = '';
+        var keys = Object.keys(byMonth);
+        for (var k = 0; k < keys.length; k++) {
+            var month = byMonth[keys[k]];
+            html += '<div class="track-month">📅 ' + month.label + ' · ' + month.entries.length + ' entrada' + (month.entries.length > 1 ? 's' : '') + '</div>';
+            html += '<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;margin:0 14px 10px;overflow:hidden;">';
+            for (var j = 0; j < month.entries.length; j++) {
+                var e = month.entries[j];
+                var preview = e.accion || e.resumen || 'Entrada del día';
+                html += '<div class="track-row" onclick="showEntry(' + e.id + ')">';
+                html += '<div class="track-dot"></div>';
+                html += '<div class="track-date">' + e.day.slice(0, 3).toUpperCase() + ' ' + e.date.slice(0, 5) + '</div>';
+                html += '<div class="track-preview">' + preview + '</div>';
+                html += '<div class="track-mood">' + e.mood + '</div>';
+                html += '</div>';
+            }
+            html += '</div>';
+        }
+        c.innerHTML = html;
+    }
+
+    function showEntry(id) {
+        var e = null;
+        for (var i = 0; i < journalEntries.length; i++) { if (journalEntries[i].id === id) { e = journalEntries[i]; break; } }
+        if (!e) return;
+        var sections = [];
+        if (e.accion) sections.push({ l: '🎯 Acción hacia la meta', v: e.accion });
+        if (e.actitud) sections.push({ l: '💪 Actitud sostenida', v: e.actitud });
+        if (e.pens) sections.push({ l: '🚫 Pensamiento bloqueado', v: e.pens });
+        if (e.resumen) sections.push({ l: '📝 Resumen del día', v: e.resumen });
+        if (e.pos) sections.push({ l: '✅ Aspectos positivos', v: e.pos });
+        if (e.neg) sections.push({ l: '❌ Aspectos negativos', v: e.neg });
+        if (e.mini) sections.push({ l: '⚡ Mini-victoria de mañana', v: e.mini });
+        if (e.acc) sections.push({ l: '🔥 Acciones a tomar', v: e.acc });
+        var overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.97);z-index:999;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch;';
+        var inner = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-top:calc(var(--sat)+8px)">';
+        inner += '<div><div style="font-family:Bebas Neue,sans-serif;font-size:20px;letter-spacing:2px;color:var(--gold)">' + e.day.toUpperCase() + ' ' + e.date + '</div>';
+        inner += '<div style="font-size:11px;color:var(--muted)">' + e.time + ' · ' + e.mood + '</div></div>';
+        inner += '<button onclick="this.closest(\'div\').remove()" style="background:var(--card);border:1px solid var(--border2);color:var(--white);padding:8px 14px;border-radius:10px;font-family:Bebas Neue,sans-serif;font-size:12px;letter-spacing:1px;cursor:pointer;">CERRAR</button></div>';
+        for (var i = 0; i < sections.length; i++) {
+            var s = sections[i];
+            inner += '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;">';
+            inner += '<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">' + s.l + '</div>';
+            inner += '<div style="font-size:14px;color:var(--white);line-height:1.65;">' + s.v + '</div></div>';
+        }
+        overlay.innerHTML = inner;
+        document.body.appendChild(overlay);
+    }
+
+    // ESPIRITUALIDAD
+    function toggleSpirit(el) {
+        el.classList.toggle('done');
+        el.querySelector('.sp-chk').textContent = el.classList.contains('done') ? '✓' : '';
+    }
+    function chkToggle(el) {
+        el.classList.toggle('chk');
+        el.querySelector('.tcheck').textContent = el.classList.contains('chk') ? '✓' : '';
+    }
+
+    // FINANZAS
+    var txs = [], txType = 'gasto', txCat = '🏠 Casa', goalAmt = 300;
+    var finArchive = [];
+
+    function setTxType(t) {
+        txType = t;
+        document.getElementById('btn-g').className = 'cpill' + (t === 'gasto' ? ' active' : '');
+        document.getElementById('btn-i').className = 'cpill' + (t === 'ingreso' ? ' active' : '');
+    }
+    function setCat(btn, c) {
+        txCat = c;
+        document.querySelectorAll('#cat-pills .cpill').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+    }
+    function addTx() {
+        var desc = document.getElementById('tx-desc').value.trim();
+        var amt = parseFloat(document.getElementById('tx-amt').value);
+        if (!desc || !amt || amt <= 0) return;
+        var now = new Date();
+        txs.unshift({
+            desc: desc, amt: amt, type: txType, cat: txCat,
+            date: now.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+            ts: now.getTime()
+        });
+        document.getElementById('tx-desc').value = '';
+        document.getElementById('tx-amt').value = '';
+        updateFin();
+    }
+    function setGoal() {
+        var v = parseFloat(document.getElementById('goal-inp').value);
+        if (v > 0) { goalAmt = v; updateFin(); }
+    }
+    function addMentor() {
+        var v = document.getElementById('mentor-inp').value.trim(); if (!v) return;
+        var el = document.createElement('div'); el.className = 'mentor-tip';
+        el.innerHTML = '<div class="mentor-tip-src">Mi mentor</div><div class="mentor-tip-text">' + v + '</div>';
+        document.getElementById('mentor-inp').before(el);
+        document.getElementById('mentor-inp').value = '';
+    }
+    function closeMes() {
+        if (txs.length === 0) { alert('No hay movimientos este mes.'); return; }
+        var now = new Date();
+        var income = 0, spent = 0, saved = 0;
+        for (var i = 0; i < txs.length; i++) {
+            var t = txs[i];
+            if (t.type === 'ingreso') income += t.amt;
+            if (t.type === 'gasto') spent += t.amt;
+            if (t.cat === '💰 Ahorro' && t.type === 'ingreso') saved += t.amt;
+        }
+        finArchive.unshift({
+            label: MESES_L[now.getMonth()] + ' ' + now.getFullYear(),
+            income: income, spent: spent, saved: saved,
+            txCount: txs.length, goalAmt: goalAmt
+        });
+        txs = [];
+        updateFin();
+        renderArchive();
+        alert('✅ Mes archivado correctamente.');
+    }
+    function updateFin() {
+        var income = 0, spent = 0, saved = 0;
+        for (var i = 0; i < txs.length; i++) {
+            var t = txs[i];
+            if (t.type === 'ingreso') income += t.amt;
+            if (t.type === 'gasto') spent += t.amt;
+            if (t.cat === '💰 Ahorro' && t.type === 'ingreso') saved += t.amt;
+        }
+        var pct = Math.min(100, Math.round(saved / goalAmt * 100));
+        document.getElementById('fin-income').textContent = income.toFixed(2) + ' €';
+        document.getElementById('fin-spent').textContent = spent.toFixed(2) + ' €';
+        document.getElementById('fin-saved').textContent = saved.toFixed(2) + ' €';
+        document.getElementById('fin-pct').textContent = pct + '% del objetivo';
+        document.getElementById('fin-goal-lbl').textContent = 'Meta: ' + goalAmt + ' €';
+        document.getElementById('fin-bar').style.width = pct + '%';
+        var list = document.getElementById('tx-list');
+        if (!txs.length) {
+            list.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px;">Sin movimientos todavía.<br>Añade tu primer registro arriba.</div>';
+            return;
+        }
+        var html = '';
+        var shown = txs.slice(0, 20);
+        for (var i = 0; i < shown.length; i++) {
+            var t = shown[i];
+            html += '<div class="tx-item">';
+            html += '<div class="tx-icon" style="background:' + (t.type === 'ingreso' ? 'rgba(90,170,122,.12)' : 'rgba(231,76,60,.1)') + '">' + (t.type === 'ingreso' ? '📥' : '📤') + '</div>';
+            html += '<div class="tx-info"><div class="tx-name">' + t.cat + ' · ' + t.desc + '</div><div class="tx-date">' + t.date + '</div></div>';
+            html += '<div class="tx-amt ' + (t.type === 'ingreso' ? 'pos' : 'neg') + '">' + (t.type === 'ingreso' ? '+' : '-') + t.amt.toFixed(2) + '€</div>';
+            html += '</div>';
+        }
+        list.innerHTML = html;
+    }
+    function renderArchive() {
+        var el = document.getElementById('fin-archive');
+        if (!finArchive.length) { el.innerHTML = ''; return; }
+        var html = '';
+        for (var i = 0; i < finArchive.length; i++) {
+            var m = finArchive[i];
+            var pct = Math.min(100, Math.round(m.saved / m.goalAmt * 100));
+            html += '<div style="background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px;">';
+            html += '<div style="font-family:Bebas Neue,sans-serif;font-size:14px;letter-spacing:2px;color:var(--gold);margin-bottom:10px;">📅 ' + m.label + ' · ' + m.txCount + ' movimientos</div>';
+            html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">';
+            html += '<div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">📥 Ingresos</div><div style="font-family:Bebas Neue,sans-serif;font-size:18px;color:var(--gold);">' + m.income.toFixed(0) + '€</div></div>';
+            html += '<div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">📤 Gastos</div><div style="font-family:Bebas Neue,sans-serif;font-size:18px;color:var(--red);">' + m.spent.toFixed(0) + '€</div></div>';
+            html += '<div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">💰 Ahorro</div><div style="font-family:Bebas Neue,sans-serif;font-size:18px;color:var(--green);">' + m.saved.toFixed(0) + '€</div></div>';
+            html += '</div>';
+            html += '<div style="margin-top:8px;"><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:3px;"><span>' + pct + '% objetivo</span><span>Meta: ' + m.goalAmt + '€</span></div><div style="height:3px;background:var(--border2);border-radius:2px;"><div style="height:100%;width:' + pct + '%;background:var(--gold);border-radius:2px;"></div></div></div>';
+            html += '</div>';
+        }
+        el.innerHTML = html;
+    }
+
+    // PERSISTENCE ADDITION
+    function saveData() {
+        var data = {
+            habDone: habDone,
+            journalEntries: journalEntries,
+            txs: txs,
+            goalAmt: goalAmt,
+            finArchive: finArchive,
+            apiKey: document.getElementById('api-key-inp') ? document.getElementById('api-key-inp').value : ''
+        };
+        localStorage.setItem('tr3c3_v3_main', JSON.stringify(data));
+    }
+
+    function loadData() {
+        var d = localStorage.getItem('tr3c3_v3_main');
+        if (d) {
+            try {
+                var data = JSON.parse(d);
+                habDone = data.habDone || {};
+                journalEntries = data.journalEntries || [];
+                txs = data.txs || [];
+                goalAmt = data.goalAmt || 300;
+                finArchive = data.finArchive || [];
+                if (data.apiKey && document.getElementById('api-key-inp')) {
+                    document.getElementById('api-key-inp').value = data.apiKey;
+                    document.getElementById('api-wrap').style.display = 'none';
+                    document.getElementById('api-ok').style.display = 'block';
+                }
+
+                // Restore UI
+                for (var id in habDone) {
+                    var el = document.querySelector('.hab-item[data-id="' + id + '"]');
+                    if (el) { el.classList.add('done'); el.querySelector('.hab-chk').textContent = '✓'; }
+                }
+                var n = Object.keys(habDone).length;
+                if (document.getElementById('hab-done-lbl')) {
+                    document.getElementById('hab-done-lbl').textContent = n + ' completados';
+                    document.getElementById('hab-pct-lbl').textContent = Math.round(n / 8 * 100) + '%';
+                    document.getElementById('hab-bar').style.width = Math.round(n / 8 * 100) + '%';
+                    document.getElementById('s-habits').textContent = n + '/8';
+                    document.getElementById('s-wins').textContent = n;
+                }
+
+                updateFin();
+                renderArchive();
+            } catch (e) { console.error('Error loading data', e); }
+        }
+    }
+
+    // Hook into save actions
+    var _origToggleHab = toggleHab; toggleHab = function (el) { _origToggleHab(el); saveData(); };
+    var _origAddTx = addTx; addTx = function () { _origAddTx(); saveData(); };
+    var _origSaveEntry = saveEntry; saveEntry = function () { _origSaveEntry(); saveData(); };
+    var _origSetGoal = setGoal; setGoal = function () { _origSetGoal(); saveData(); };
+    var _origCloseMes = closeMes; closeMes = function () { _origCloseMes(); saveData(); };
+    function saveKey() {
+        var k = document.getElementById('api-key-inp').value;
+        if (k.startsWith('sk-')) {
+            saveData();
+            document.getElementById('api-wrap').style.display = 'none';
+            document.getElementById('api-ok').style.display = 'block';
+        } else {
+            alert('Clave inválida');
+        }
+    }
+
+    window.addEventListener('load', loadData);
+</script>
 </body>
 
 </html>
