@@ -5,11 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="description" content="TR3C3 OS - Sistema personal de productividad, hábitos y crecimiento">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="TR3C3">
-    <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#f5c400">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-512.png">
@@ -17,12 +15,1265 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --bg: #000000;
+            --bg2: #0a0a0a;
+            --card: #111111;
+            --card2: #161616;
+            --border: #1c1c1c;
+            --border2: #2a2a2a;
+            --white: #f5f0e8;
+            --muted: #666666;
+            --muted2: #333333;
+            --gold: #f5c400;
+            --gold2: #ffd740;
+            --nav-h: 72px;
+            --sat: env(safe-area-inset-top, 44px);
+            --sab: env(safe-area-inset-bottom, 34px);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 16px;
+            overscroll-behavior-y: none;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        #app {
+            height: 100dvh;
+            max-width: 430px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: calc(var(--nav-h) + var(--sab) + 12px);
+            background: var(--bg);
+            display: none;
+            z-index: 10;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* TYPOGRAPHY */
+        h1,
+        h2,
+        h3,
+        .bebas {
+            font-family: 'Bebas Neue', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .serif-italic {
+            font-family: 'DM Serif Display', serif;
+            font-style: italic;
+        }
+
+        /* HEADER */
+        .home-hero {
+            padding: calc(var(--sat) + 20px) 24px 20px;
+            background: var(--bg);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .sticky-header {
+            padding: calc(var(--sat) + 20px) 24px 20px;
+            background: rgba(0, 0, 0, 0.8);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .header-date {
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .home-greeting {
+            font-size: 13px;
+            color: var(--gold);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .home-title {
+            font-family: 'Bebas Neue';
+            font-size: 42px;
+            line-height: 0.9;
+            color: var(--white);
+        }
+
+        .home-title span {
+            color: var(--gold);
+        }
+
+        .home-quote {
+            font-family: 'DM Serif Display';
+            font-style: italic;
+            color: var(--muted);
+            margin-top: 12px;
+            font-size: 15px;
+            line-height: 1.3;
+        }
+
+        /* CARDS */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            margin: 8px 14px;
+        }
+
+        .card-title {
+            font-family: 'Bebas Neue';
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+        }
+
+        /* STATS GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin: 8px 14px;
+        }
+
+        .stat-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-num {
+            font-family: 'Bebas Neue';
+            font-size: 24px;
+            color: var(--white);
+        }
+
+        .stat-lbl {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: var(--muted);
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* MOTIVATOR */
+        .motivator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 14px;
+            padding: 12px;
+            background: var(--card2);
+            border-radius: 12px;
+            border: 1px solid var(--border2);
+        }
+
+        .motivator-emoji {
+            font-size: 24px;
+        }
+
+        .motivator-text {
+            font-size: 13px;
+            line-height: 1.4;
+            color: var(--white);
+            font-style: italic;
+        }
+
+        /* DAY GRID */
+        .today-block {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .today-block:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .tb-hour {
+            font-family: 'Bebas Neue';
+            color: var(--gold);
+            font-size: 16px;
+            width: 45px;
+            flex-shrink: 0;
+            padding-top: 3px;
+        }
+
+        .tb-name {
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+
+        .tb-desc {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        /* HABIT ITEM */
+        .habit-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border2);
+        }
+
+        .habit-item:last-child {
+            border-bottom: none;
+        }
+
+        .hab-chk {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .habit-item.done .hab-chk {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: #000;
+        }
+
+        .habit-item.done .hab-chk::after {
+            content: '✓';
+            font-weight: bold;
+        }
+
+        .hab-name {
+            font-size: 15px;
+            color: var(--white);
+            margin-bottom: 2px;
+        }
+
+        .habit-item.done .hab-name {
+            text-decoration: line-through;
+            color: var(--muted);
+        }
+
+        .hab-desc {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* BUTTONS */
+        .btn {
+            background: var(--gold);
+            color: #000;
+            font-family: 'Bebas Neue';
+            font-size: 16px;
+            letter-spacing: 2px;
+            border-radius: 12px;
+            padding: 13px 18px;
+            width: 100%;
+            border: none;
+            outline: none;
+            text-align: center;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+
+        /* INPUTS */
+        input,
+        textarea {
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            width: 100%;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--gold);
+        }
+
+        /* NAVIGATION */
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            height: calc(var(--nav-h) + var(--sab));
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            padding-top: 10px;
+            padding-bottom: var(--sab);
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            width: 11%;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+
+        .nav-btn.active {
+            opacity: 1;
+            color: var(--gold);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        .nav-lbl {
+            font-size: 8px;
+            font-family: 'Bebas Neue';
+            letter-spacing: 1px;
+        }
+
+        /* PROGRESS BARS */
+        .progress-bar {
+            height: 6px;
+            background: var(--border2);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gold);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* CHAT */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-bottom: 20px;
+        }
+
+        .msg {
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.4;
+            max-width: 85%;
+        }
+
+        .msg-coach {
+            background: var(--card2);
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 4px;
+            align-self: flex-start;
+        }
+
+        .msg-user {
+            background: var(--gold);
+            color: #000;
+            border-bottom-right-radius: 4px;
+            align-self: flex-end;
+        }
+
+        .msg-coach-lbl {
+            font-size: 9px;
+            color: var(--gold);
+            margin-bottom: 4px;
+            font-weight: bold;
+            font-family: 'Bebas Neue';
+            letter-spacing: 1px;
+        }
+
+        /* MODE PILLS */
+        .mode-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            padding: 0 14px 14px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .mode-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mode-pill {
+            border: 1px solid var(--border2);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            flex-shrink: 0;
+            color: var(--muted);
+        }
+
+        .mode-pill.active {
+            background: var(--gold);
+            color: #000;
+            border-color: var(--gold);
+            font-weight: bold;
+        }
+
+        /* ACCORDION */
+        .acc-head {
+            background: rgba(245, 196, 0, 0.04);
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .acc-title {
+            font-family: 'Bebas Neue';
+            color: var(--gold);
+            letter-spacing: 1px;
+            font-size: 16px;
+        }
+
+        .acc-icon {
+            transition: transform 0.3s;
+            color: var(--gold);
+            font-size: 12px;
+        }
+
+        .acc-body {
+            display: none;
+            padding: 0 12px 12px;
+        }
+
+        .acc-item.open .acc-body {
+            display: block;
+        }
+
+        .acc-item.open .acc-icon {
+            transform: rotate(180deg);
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            margin: 8px 14px;
+            background: var(--card);
+            border-radius: 12px;
+            padding: 4px;
+            border: 1px solid var(--border);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            font-size: 12px;
+            font-family: 'Bebas Neue';
+            letter-spacing: 1px;
+            color: var(--muted);
+            border-radius: 8px;
+        }
+
+        .tab.active {
+            background: var(--gold);
+            color: #000;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="app"></div>
-    <script src="app.js"></script>
+
+    <div id="app">
+
+        <!-- =======================
+             SECCIÓN 1: INICIO
+             ======================= -->
+        <div class="screen active" id="s-home">
+            <div class="home-hero">
+                <div class="header-top">
+                    <!-- LOGO TR3C3 SVG -->
+                    <svg width="100" height="28" viewBox="0 0 110 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="2" y1="4" x2="16" y2="4" stroke="#f5f0e8" stroke-width="2.8"
+                            stroke-linecap="square" />
+                        <line x1="9" y1="4" x2="9" y2="26" stroke="#f5f0e8" stroke-width="2.8"
+                            stroke-linecap="square" />
+                        <line x1="22" y1="4" x2="22" y2="26" stroke="#f5f0e8" stroke-width="2.8"
+                            stroke-linecap="square" />
+                        <path d="M22 4 L31 4 L31 14 L22 14" stroke="#f5f0e8" stroke-width="2.8" fill="none"
+                            stroke-linecap="square" stroke-linejoin="miter" />
+                        <line x1="28" y1="14" x2="33" y2="26" stroke="#f5f0e8" stroke-width="2.8"
+                            stroke-linecap="square" />
+                        <path d="M40 4 L51 4 L51 14 L40 14" stroke="#f5c400" stroke-width="2.8" fill="none"
+                            stroke-linecap="square" stroke-linejoin="miter" />
+                        <path d="M40 26 L51 26 L51 14" stroke="#f5c400" stroke-width="2.8" fill="none"
+                            stroke-linecap="square" stroke-linejoin="miter" />
+                        <path d="M62 4 L58 4 Q57 4 57 5 L57 25 Q57 26 58 26 L62 26" stroke="#f5f0e8" stroke-width="2.8"
+                            fill="none" stroke-linecap="square" stroke-linejoin="miter" />
+                        <path d="M69 4 L80 4 L80 14 L69 14" stroke="#f5c400" stroke-width="2.8" fill="none"
+                            stroke-linecap="square" stroke-linejoin="miter" />
+                        <path d="M69 26 L80 26 L80 14" stroke="#f5c400" stroke-width="2.8" fill="none"
+                            stroke-linecap="square" stroke-linejoin="miter" />
+                    </svg>
+                    <div class="header-date" id="home-date">JUE 13 FEB</div>
+                </div>
+                <div class="home-greeting" id="greeting">BUENAS TARDES</div>
+                <div class="home-title">HOLA,<br><span>GUERRERO</span></div>
+                <div class="home-quote">"El árbol más fuerte creció del suelo más oscuro."</div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-num" id="s-habits">0/8</div>
+                    <div class="stat-lbl">HÁBITOS</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num" id="s-streak">0</div>
+                    <div class="stat-lbl">RACHA</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num" id="s-wins">0</div>
+                    <div class="stat-lbl">VICTORIAS</div>
+                </div>
+            </div>
+
+            <div class="motivator">
+                <div class="motivator-emoji">👶</div>
+                <div class="motivator-text" id="motivator-txt">Tu hijo está mirando. No al que eres hoy — al que estás
+                    eligiendo ser.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">⏱ TU DÍA HOY</div>
+                <div class="today-block">
+                    <div class="tb-hour">06:30</div>
+                    <div>
+                        <div class="tb-name">🐕 Perros + bebé</div>
+                        <div class="tb-desc">Paseo · Biberón · Guardería</div>
+                    </div>
+                </div>
+                <!-- Más bloques de tiempo se llenarán dinámicamente o estáticos como en diseño -->
+                <div class="today-block">
+                    <div class="tb-hour">08:30</div>
+                    <div>
+                        <div class="tb-name">💤 A dormir</div>
+                        <div class="tb-desc">6.5h mínimo · Sin móvil</div>
+                    </div>
+                </div>
+                <div class="today-block">
+                    <div class="tb-hour">15:00</div>
+                    <div>
+                        <div class="tb-name">🔥 Despertar</div>
+                        <div class="tb-desc">Ritual 10 min · Intención</div>
+                    </div>
+                </div>
+                <div class="today-block">
+                    <div class="tb-hour">15:30</div>
+                    <div>
+                        <div class="tb-name">💻 Bloque Prod.</div>
+                        <div class="tb-desc">IA · Auto · Roadmap</div>
+                    </div>
+                </div>
+                <div class="today-block">
+                    <div class="tb-hour">16:30</div>
+                    <div>
+                        <div class="tb-name">👨👩👧 Familia</div>
+                        <div class="tb-desc">Presente total · Ejercicio</div>
+                    </div>
+                </div>
+                <div class="today-block">
+                    <div class="tb-hour">21:30</div>
+                    <div>
+                        <div class="tb-name">🌙 Turno noche</div>
+                        <div class="tb-desc">Trading · Formación · Fe</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =======================
+             SECCIÓN 2: HÁBITOS
+             ======================= -->
+        <div class="screen" id="s-habitos">
+            <div class="sticky-header">
+                <div class="home-title" style="font-size:24px">HÁBITOS <span style="color:var(--gold)">DIARIOS</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">PROGRESO HOY</div>
+                <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                    <div style="color:var(--white); font-weight:bold; font-size:14px;" id="hab-count-lbl">0 completados
+                    </div>
+                    <div style="color:var(--gold); font-weight:bold; font-size:14px;" id="hab-pct-lbl">0%</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="hab-progress" style="width: 0%"></div>
+                </div>
+                <div
+                    style="display:flex; justify-content:space-between; margin-top:12px; font-size:10px; color:var(--muted); font-family:'Bebas Neue'; letter-spacing:2px;">
+                    <div>L</div>
+                    <div>M</div>
+                    <div>X</div>
+                    <div style="color:var(--gold)">J</div>
+                    <div>V</div>
+                    <div>S</div>
+                    <div>D</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">GRUPO 1 · DESPERTAR 15:00</div>
+                <div id="hab-list-1"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">GRUPO 2 · PRODUCTIVIDAD 15:30</div>
+                <div id="hab-list-2"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">GRUPO 3 · NOCHE 22:00</div>
+                <div id="hab-list-3"></div>
+            </div>
+        </div>
+
+        <!-- =======================
+             SECCIÓN 3: COACH
+             ======================= -->
+        <div class="screen" id="s-coach">
+            <div class="sticky-header">
+                <div class="home-title" style="font-size:24px">COACH <span style="color:var(--gold)">IA</span></div>
+            </div>
+
+            <div id="apikey-box" class="card">
+                <div class="card-title">🔑 API KEY OPENAI</div>
+                <input type="password" id="api-key-input" placeholder="sk-..." style="margin-bottom:12px;">
+                <button class="btn" onclick="saveApiKey()">GUARDAR CLAVE</button>
+                <div style="font-size:11px; color:var(--muted); margin-top:12px; text-align:center;">Se guarda solo en
+                    memoria. Modelo: gpt-4o-mini</div>
+            </div>
+
+            <div id="coach-interface" style="display:none; height:calc(100% - 80px); flex-direction:column;">
+                <div class="mode-scroll" id="mode-scroll"></div>
+
+                <div style="flex:1; overflow-y:auto; padding:0 14px;" id="chat-history">
+                    <!-- Chat messages -->
+                </div>
+
+                <div
+                    style="padding:14px; background:var(--bg); border-top:1px solid var(--border); display:flex; gap:10px;">
+                    <textarea id="chat-input" rows="1" placeholder="Escribe al coach..."
+                        style="resize:none; padding:10px;"></textarea>
+                    <button onclick="sendChat()"
+                        style="width:44px; height:44px; border-radius:50%; background:var(--gold); border:none; display:flex; align-items:center; justify-content:center; font-size:20px;">↑</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =======================
+             SECCIÓN 4: FINANZAS
+             ======================= -->
+        <div class="screen" id="s-finanzas">
+            <div class="sticky-header">
+                <div class="home-title" style="font-size:24px">ESTADO <span style="color:var(--gold)">FINANCIERO</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title" style="display:flex; justify-content:space-between;">
+                    <span>AHORRADO ESTE MES</span>
+                    <span style="color:var(--gold)">META: 300€</span>
+                </div>
+                <div style="font-size:32px; font-family:'Bebas Neue'; color:#5aaa7a; margin: 4px 0;">+120€</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:40%; background:#5aaa7a;"></div>
+                </div>
+            </div>
+
+            <div class="stats-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="stat-box">
+                    <div class="stat-num" style="color:#e74c3c">450€</div>
+                    <div class="stat-lbl">GASTOS</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num" style="color:var(--gold)">570€</div>
+                    <div class="stat-lbl">INGRESOS</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">REGISTRAR MOVIMIENTO</div>
+                <div style="display:flex; gap:8px; margin-bottom:12px;">
+                    <div class="mode-pill active" onclick="setTxType('gasto',this)">GASTO</div>
+                    <div class="mode-pill" onclick="setTxType('ingreso',this)">INGRESO</div>
+                </div>
+                <input type="text" id="tx-desc" placeholder="Descripción" style="margin-bottom:8px;">
+                <input type="number" id="tx-amt" placeholder="0.00 €" inputmode="decimal" style="margin-bottom:12px;">
+                <button class="btn">REGISTRAR</button>
+            </div>
+        </div>
+
+        <!-- =======================
+             SECCIÓN 5: DIARIO
+             ======================= -->
+        <div class="screen" id="s-diario">
+            <div class="sticky-header">
+                <div class="home-title" style="font-size:24px">DIARIO <span style="color:var(--gold)">PERSONAL</span>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" onclick="setTab('write')">✍️ ESCRIBIR</div>
+                <div class="tab" onclick="setTab('track')">📊 TRACKLIST</div>
+            </div>
+
+            <div id="tab-write">
+                <div class="card" style="text-align:center;">
+                    <div style="font-family:'Bebas Neue'; font-size:32px; color:var(--gold);">13 FEB</div>
+                    <div style="font-size:12px; color:var(--muted); letter-spacing:2px; margin-bottom:12px;">JUEVES
+                    </div>
+                    <div style="font-size:24px; display:flex; justify-content:center; gap:16px;">
+                        <span>😤</span><span>😞</span><span
+                            style="border-bottom:2px solid var(--gold); padding-bottom:4px;">😐</span><span>🙂</span><span>🔥</span>
+                    </div>
+                </div>
+
+                <div class="card" style="border-color:var(--gold2); background:rgba(245,196,0,0.02)">
+                    <div class="card-title" style="color:var(--gold)">PREGUNTA PODEROSA</div>
+                    <div class="serif-italic" style="font-size:18px; line-height:1.4; margin-bottom:12px;">"¿Qué
+                        necesito hoy para estar orgulloso de mí mismo al anochecer?"</div>
+                    <textarea rows="2" placeholder="Una acción..." style="margin-bottom:8px;"></textarea>
+                    <textarea rows="2" placeholder="Una actitud..." style="margin-bottom:8px;"></textarea>
+                    <textarea rows="2" placeholder="Un pensamiento a evitar..."></textarea>
+                </div>
+
+                <div class="card">
+                    <button class="btn">💾 GUARDAR ENTRADA</button>
+                </div>
+            </div>
+
+            <div id="tab-track" style="display:none;">
+                <div class="card">
+                    <div class="card-title">HISTORIAL</div>
+                    <div style="text-align:center; padding:20px; color:var(--muted); font-style:italic;">No hay entradas
+                        aún.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =======================
+             SECCIÓN 6: RUTINA
+             ======================= -->
+        <div class="screen" id="s-rutina">
+            <div class="sticky-header">
+                <div class="home-title" style="font-size:24px">RUTINA <span style="color:var(--gold)">ESTRUCTURA</span>
+                </div>
+            </div>
+
+            <div style="padding: 0 14px;">
+                <div class="acc-item open" onclick="toggleAcc(this)">
+                    <div class="acc-head">
+                        <div class="acc-title">LLEGADA A CASA (06:30-08:30)</div>
+                        <div class="acc-icon">▼</div>
+                    </div>
+                    <div class="acc-body">
+                        <div class="habit-item">
+                            <div class="hab-chk"></div>
+                            <div class="hab-name">🐕 Sacar perros 15 min</div>
+                        </div>
+                        <div class="habit-item">
+                            <div class="hab-chk"></div>
+                            <div class="hab-name">👶 Atender al bebé</div>
+                        </div>
+                        <div class="habit-item">
+                            <div class="hab-chk"></div>
+                            <div class="hab-name">🪥 Higiene y cama (8:30)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="acc-item" onclick="toggleAcc(this)">
+                    <div class="acc-head">
+                        <div class="acc-title">RITUAL DESPERTAR (15:00)</div>
+                        <div class="acc-icon">▼</div>
+                    </div>
+                    <div class="acc-body">
+                        <div class="habit-item">
+                            <div class="hab-chk"></div>
+                            <div class="hab-name">⏰ Sin snooze (Decide)</div>
+                        </div>
+                        <div class="habit-item">
+                            <div class="hab-chk"></div>
+                            <div class="hab-name">💧 Agua + cara</div>
+                        </div>
+                        <div class="habit-item">
+                            <div class="hab-chk"></div>
+                            <div class="hab-name">🐕 Sacar perros</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="acc-item" onclick="toggleAcc(this)">
+                    <div class="acc-head">
+                        <div class="acc-title">BLOQUE PRODUCTIVO (15:30)</div>
+                        <div class="acc-icon">▼</div>
+                    </div>
+                    <div class="acc-body">
+                        <div class="habit-item">
+                            <div class="hab-chk"></div>
+                            <div class="hab-name">📵 Modo avión</div>
+                        </div>
+                        <div class="habit-item">
+                            <div class="hab-chk"></div>
+                            <div class="hab-name">💻 45 min Deep Work</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =======================
+             SECCIÓN 7: ROADMAP
+             ======================= -->
+        <div class="screen" id="s-roadmap">
+            <div class="sticky-header">
+                <div class="home-title" style="font-size:24px">ROADMAP <span style="color:var(--gold)">VISIÓN</span>
+                </div>
+            </div>
+
+            <div class="card" style="text-align:center; padding:24px;">
+                <div style="font-size:48px; font-family:'Bebas Neue'; color:var(--gold); line-height:1;">1.000€</div>
+                <div
+                    style="font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--white); margin-bottom:8px;">
+                    OBJETIVO · 30 DÍAS</div>
+                <div style="font-size:14px; color:var(--muted); font-style:italic;">Automatizaciones IA · Primer
+                    cliente: transportes</div>
+            </div>
+
+            <div style="padding:0 14px;">
+                <div class="acc-item open" onclick="toggleAcc(this)">
+                    <div class="acc-head">
+                        <div class="acc-title">FASE 1 · CIMIENTOS (D1-7)</div>
+                        <div class="acc-icon">▼</div>
+                    </div>
+                    <div class="acc-body">
+                        <div class="habit-item">
+                            <div class="hab-chk"></div>
+                            <div class="hab-name">Definir servicio exacto</div>
+                        </div>
+                        <div class="habit-item">
+                            <div class="hab-chk"></div>
+                            <div class="hab-name">Aprender Make.com (1 día)</div>
+                        </div>
+                        <div class="habit-item">
+                            <div class="hab-chk"></div>
+                            <div class="hab-name">Construir Demo Bot</div>
+                        </div>
+                        <div class="habit-item">
+                            <div class="hab-chk"></div>
+                            <div class="hab-name">Cerrar cliente GRATIS</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =======================
+             SECCIÓN 8: DIGITAL
+             ======================= -->
+        <div class="screen" id="s-digital">
+            <div class="sticky-header">
+                <div class="home-title" style="font-size:24px">AYUNO <span style="color:var(--gold)">DIGITAL</span>
+                </div>
+            </div>
+
+            <div class="motivator" style="background: #250000; border-color: #500000;">
+                <div class="motivator-emoji">⛔</div>
+                <div class="motivator-text" style="color: #ffcccc;">"¿Esto me acerca a los 1000€ o me aleja?"<br>Si
+                    aleja, cierra la app.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">SEMANA 1 · CONCIENCIA</div>
+                <div class="habit-item">
+                    <div class="hab-chk" style="border-radius:4px;"></div>
+                    <div class="hab-name">Activar Screen Time</div>
+                </div>
+                <div class="habit-item">
+                    <div class="hab-chk" style="border-radius:4px;"></div>
+                    <div class="hab-name">Eliminar Push Notif.</div>
+                </div>
+                <div class="habit-item">
+                    <div class="hab-chk" style="border-radius:4px;"></div>
+                    <div class="hab-name">Límite 30 min redes</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =======================
+             SECCIÓN 9: INTERIOR
+             ======================= -->
+        <div class="screen" id="s-fe">
+            <div class="sticky-header">
+                <div class="home-title" style="font-size:24px">MUNDO <span style="color:var(--gold)">INTERIOR</span>
+                </div>
+            </div>
+
+            <div class="card" style="background:rgba(245,196,0,0.05); border-color:var(--gold2);">
+                <div class="card-title" style="color:var(--gold);">✦ REFLEXIÓN DEL DÍA</div>
+                <div class="serif-italic" style="font-size:18px; line-height:1.4; margin-bottom:8px;">"No puedes
+                    controlar lo que te pasa. Solo cómo respondes."</div>
+                <div style="text-align:right; font-size:12px; color:var(--muted); font-style:normal;">— Marco Aurelio
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">PRÁCTICAS DE HOY</div>
+                <div class="habit-item">
+                    <div class="hab-chk"></div>
+                    <div class="hab-name">2 min silencio consciente</div>
+                </div>
+                <div class="habit-item">
+                    <div class="hab-chk"></div>
+                    <div class="hab-name">1 cosa de gratitud</div>
+                </div>
+                <div class="habit-item">
+                    <div class="hab-chk"></div>
+                    <div class="hab-name">1 min con tu hijo (full)</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- NAVIGATION BAR -->
+    <nav>
+        <button class="nav-btn active" onclick="go('home',this)"><span class="nav-icon">🏠</span><span
+                class="nav-lbl">INICIO</span></button>
+        <button class="nav-btn" onclick="go('habitos',this)"><span class="nav-icon">✅</span><span
+                class="nav-lbl">HÁBITOS</span></button>
+        <button class="nav-btn" onclick="go('coach',this)"><span class="nav-icon">🤖</span><span
+                class="nav-lbl">COACH</span></button>
+        <button class="nav-btn" onclick="go('finanzas',this)"><span class="nav-icon">💰</span><span
+                class="nav-lbl">FINANZAS</span></button>
+        <button class="nav-btn" onclick="go('diario',this)"><span class="nav-icon">📓</span><span
+                class="nav-lbl">DIARIO</span></button>
+        <button class="nav-btn" onclick="go('rutina',this)"><span class="nav-icon">⏱</span><span
+                class="nav-lbl">RUTINA</span></button>
+        <button class="nav-btn" onclick="go('roadmap',this)"><span class="nav-icon">🚀</span><span
+                class="nav-lbl">ROADMAP</span></button>
+        <button class="nav-btn" onclick="go('digital',this)"><span class="nav-icon">📵</span><span
+                class="nav-lbl">DIGITAL</span></button>
+        <button class="nav-btn" onclick="go('fe',this)"><span class="nav-icon">✨</span><span
+                class="nav-lbl">INTERIOR</span></button>
+    </nav>
+
+    <script>
+        // ==== SERVICE WORKER REGISTRATION ====
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('sw.js').catch(function (err) { console.log(err); });
+            });
+        }
+
+        // ==== DATA & CONFIG ====
+        var DATA = {
+            habits: {}, // { id: boolean }
+            txs: [],
+            journal: [],
+            apiKey: ''
+        };
+        var HABITS_DEF = [
+            { id: 'h1', g: 1, name: 'Levantarse SIN snooze' },
+            { id: 'h2', g: 1, name: 'Ritual 10 min' },
+            { id: 'h3', g: 1, name: 'Sacar perros (15m)' },
+            { id: 'h4', g: 2, name: '45 min trabajo real' },
+            { id: 'h5', g: 2, name: 'Sin redes hasta acabar' },
+            { id: 'h6', g: 3, name: '20 min formación IA' },
+            { id: 'h7', g: 3, name: '10 min reflexión' },
+            { id: 'h8', g: 3, name: 'Afirmación noche' }
+        ];
+        var MOTIVATORS = [
+            "Tu hijo está mirando. No al que eres hoy — al que estás eligiendo ser.",
+            "El golpe del trading no te definió. Cómo te levantas, sí.",
+            "Un 1% mejor cada día. En un año serás otro.",
+            "La disciplina es libertad. El caos es la verdadera prisión.",
+            "Cada hábito completado dice: soy alguien que cumple."
+        ];
+        var COACH_MODES = [
+            { id: 'chat', n: 'LIBRE', p: 'Modo libre. ¿Qué necesitas hoy?' },
+            { id: 'analisis', n: 'ANÁLISIS', p: '¿Cuándo fue la última vez que hiciste algo que te diera miedo de verdad?' },
+            { id: 'trading', n: 'TRADING', p: '¿Cuál fue la última regla que rompiste operando? ¿Qué sentías?' },
+            { id: 'mente', n: 'MENTE', p: '¿Cómo es tu vida dentro de 2 años si todo sale como quieres?' },
+            { id: 'metas', n: 'METAS', p: '¿Qué tiene que pasar esta semana para que el domingo sientas que avanzaste?' }
+        ];
+        var currMode = 0;
+
+        // ==== INIT ====
+        window.onload = function () {
+            loadData();
+            initDate();
+            initHabits();
+            initCoachUI();
+            startRotators();
+        };
+
+        // ==== NAVIGATION ====
+        window.go = function (s, btn) {
+            var screens = document.querySelectorAll('.screen');
+            for (var i = 0; i < screens.length; i++) screens[i].classList.remove('active');
+
+            var btns = document.querySelectorAll('.nav-btn');
+            for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+
+            document.getElementById('s-' + s).classList.add('active');
+            if (btn) btn.classList.add('active');
+            window.scrollTo(0, 0);
+        };
+
+        window.toggleAcc = function (el) {
+            el.classList.toggle('open');
+        }
+
+        window.setTab = function (t) {
+            document.getElementById('tab-write').style.display = t === 'write' ? 'block' : 'none';
+            document.getElementById('tab-track').style.display = t === 'track' ? 'block' : 'none';
+            var tabs = document.querySelectorAll('.tab');
+            tabs[0].className = t === 'write' ? 'tab active' : 'tab';
+            tabs[1].className = t === 'track' ? 'tab active' : 'tab';
+        }
+
+        // ==== HABITS ====
+        function initHabits() {
+            var g1 = document.getElementById('hab-list-1');
+            var g2 = document.getElementById('hab-list-2');
+            var g3 = document.getElementById('hab-list-3');
+
+            HABITS_DEF.forEach(function (h) {
+                var div = document.createElement('div');
+                div.className = 'habit-item ' + (DATA.habits[h.id] ? 'done' : '');
+                div.onclick = function () { toggleHabit(h.id, div); };
+                div.innerHTML = '<div class="hab-chk"></div><div class="hab-name">' + h.name + '</div>';
+
+                if (h.g === 1) g1.appendChild(div);
+                if (h.g === 2) g2.appendChild(div);
+                if (h.g === 3) g3.appendChild(div);
+            });
+            updateHabitStats();
+        }
+
+        function toggleHabit(id, el) {
+            if (DATA.habits[id]) delete DATA.habits[id];
+            else DATA.habits[id] = true;
+
+            el.className = 'habit-item ' + (DATA.habits[id] ? 'done' : '');
+            saveData();
+            updateHabitStats();
+        }
+
+        function updateHabitStats() {
+            var n = Object.keys(DATA.habits).length;
+            var t = HABITS_DEF.length;
+            var pct = Math.round((n / t) * 100);
+
+            document.getElementById('s-habits').innerText = n + '/' + t;
+            document.getElementById('hab-count-lbl').innerText = n + ' completados';
+            document.getElementById('hab-pct-lbl').innerText = pct + '%';
+            document.getElementById('hab-progress').style.width = pct + '%';
+        }
+
+        // ==== COACH ====
+        function initCoachUI() {
+            var box = document.getElementById('mode-scroll');
+            COACH_MODES.forEach(function (m, idx) {
+                var p = document.createElement('div');
+                p.className = 'mode-pill ' + (idx === 0 ? 'active' : '');
+                p.innerText = m.n;
+                p.onclick = function () { setCoachMode(idx, p); };
+                box.appendChild(p);
+            });
+
+            if (DATA.apiKey) {
+                document.getElementById('apikey-box').style.display = 'none';
+                document.getElementById('coach-interface').style.display = 'flex';
+                addChatMsg(COACH_MODES[0].p, 'coach');
+            }
+        }
+
+        window.saveApiKey = function () {
+            var k = document.getElementById('api-key-input').value;
+            if (k.length > 10) {
+                DATA.apiKey = k; // In memory only for this session/reloads (mock persistence)
+                // Real usage: Do not save to localStorage for security, or save if user insists.
+                // For this PWA persistence, we save it.
+                saveData();
+                document.getElementById('apikey-box').style.display = 'none';
+                document.getElementById('coach-interface').style.display = 'flex';
+                addChatMsg(COACH_MODES[0].p, 'coach');
+            }
+        }
+
+        function setCoachMode(idx, el) {
+            currMode = idx;
+            document.querySelectorAll('.mode-pill').forEach(function (x) { x.classList.remove('active'); });
+            el.classList.add('active');
+            addChatMsg(COACH_MODES[idx].p, 'coach');
+        }
+
+        window.sendChat = function () {
+            var txt = document.getElementById('chat-input').value;
+            if (!txt) return;
+            addChatMsg(txt, 'user');
+            document.getElementById('chat-input').value = '';
+
+            // MOCK API CALL OR REAL CALL IF KEY EXISTS
+            if (DATA.apiKey) {
+                var btn = document.querySelector('#chat-input + button');
+                btn.innerText = '...';
+
+                fetch('https://api.openai.com/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + DATA.apiKey
+                    },
+                    body: JSON.stringify({
+                        model: "gpt-4o-mini",
+                        messages: [
+                            { role: "system", content: "Eres COACH TR3C3. Padre, trading, IA. Responde corto." },
+                            { role: "user", content: txt }
+                        ]
+                    })
+                })
+                    .then(function (r) { return r.json(); })
+                    .then(function (d) {
+                        if (d.choices) addChatMsg(d.choices[0].message.content, 'coach');
+                        else addChatMsg("Error en la API. Revisa tu clave.", 'coach');
+                        btn.innerText = '↑';
+                    })
+                    .catch(function (e) {
+                        addChatMsg("Error de conexión.", 'coach');
+                        btn.innerText = '↑';
+                    });
+            } else {
+                setTimeout(function () { addChatMsg("Necesito tu API Key para responder de verdad.", 'coach'); }, 500);
+            }
+        }
+
+        function addChatMsg(txt, role) {
+            var div = document.createElement('div');
+            div.className = 'msg msg-' + role;
+            if (role === 'coach') div.innerHTML = '<div class="msg-coach-lbl">COACH TR3C3</div>' + txt;
+            else div.innerText = txt;
+
+            var box = document.getElementById('chat-history');
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        // ==== UTILS ====
+        function initDate() {
+            var now = new Date();
+            var days = ['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB'];
+            var months = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
+            document.getElementById('home-date').innerText = days[now.getDay()] + ' ' + now.getDate() + ' ' + months[now.getMonth()];
+        }
+
+        function startRotators() {
+            var idx = 0;
+            setInterval(function () {
+                idx = (idx + 1) % MOTIVATORS.length;
+                var el = document.getElementById('motivator-txt');
+                el.style.opacity = 0;
+                setTimeout(function () {
+                    el.innerText = MOTIVATORS[idx];
+                    el.style.opacity = 1;
+                }, 300);
+            }, 9000);
+        }
+
+        function loadData() {
+            var s = localStorage.getItem('tr3c3_os_data');
+            if (s) DATA = JSON.parse(s);
+        }
+
+        function saveData() {
+            localStorage.setItem('tr3c3_os_data', JSON.stringify(DATA));
+        }
+
+    </script>
 </body>
 
 </html>
