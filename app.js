@@ -58,6 +58,186 @@ function loadHTML() {
   </div>
 </div>
 
+<!-- HABITOS SCREEN -->
+<div class="screen" id="s-habitos">
+    <div class="home-hero">
+        <div class="home-title">HÁBITOS<br><span>DIARIOS</span></div>
+    </div>
+    <div class="card">
+        <div class="card-title">NO NEGOCIABLES</div>
+        <div class="habit-item" onclick="toggleHab(this)" data-id="h1">
+            <div class="hab-chk"></div>
+            <div><div class="hab-name">Levantarse a las 15:00</div><div class="hab-desc">Sin posponer alarma</div></div>
+        </div>
+        <div class="habit-item" onclick="toggleHab(this)" data-id="h2">
+            <div class="hab-chk"></div>
+            <div><div class="hab-name">Entrenamiento físico</div><div class="hab-desc">Pesas o cardio intenso</div></div>
+        </div>
+        <div class="habit-item" onclick="toggleHab(this)" data-id="h3">
+            <div class="hab-chk"></div>
+            <div><div class="hab-name">Deep Work (4h)</div><div class="hab-desc">Sin distracciones</div></div>
+        </div>
+        <div class="habit-item" onclick="toggleHab(this)" data-id="h4">
+            <div class="hab-chk"></div>
+            <div><div class="hab-name">Lectura/Formación</div><div class="hab-desc">Mínimo 30 min</div></div>
+        </div>
+        <div class="habit-item" onclick="toggleHab(this)" data-id="h5">
+            <div class="hab-chk"></div>
+            <div><div class="hab-name">Macro-gestión</div><div class="hab-desc">Revisar finanzas y plan</div></div>
+        </div>
+        <div class="habit-item" onclick="toggleHab(this)" data-id="h6">
+            <div class="hab-chk"></div>
+            <div><div class="hab-name">Dieta limpia</div><div class="hab-desc">Sin azúcar ni procesados</div></div>
+        </div>
+        <div class="habit-item" onclick="toggleHab(this)" data-id="h7">
+            <div class="hab-chk"></div>
+            <div><div class="hab-name">Sin pornografía</div><div class="hab-desc">Control mental total</div></div>
+        </div>
+        <div class="habit-item" onclick="toggleHab(this)" data-id="h8">
+            <div class="hab-chk"></div>
+            <div><div class="hab-name">Dormir 7h</div><div class="hab-desc">Higiene de sueño</div></div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title">PROGRESO HOY</div>
+        <div class="progress-bar"><div class="progress-fill" id="hab-bar" style="width:0%"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:var(--muted);">
+            <div id="hab-done-lbl">0 completados</div>
+            <div id="hab-pct-lbl">0%</div>
+        </div>
+    </div>
+</div>
+
+<!-- COACH SCREEN -->
+<div class="screen" id="s-coach">
+    <div class="home-hero">
+        <div class="home-title">COACH<br><span>IA</span></div>
+    </div>
+    <div class="card">
+        <div style="text-align:center;padding:20px 0;">
+            <div style="font-size:40px;margin-bottom:10px;">🤖</div>
+            <div style="font-family:'DM Serif Display';font-style:italic;color:var(--gold);margin-bottom:10px;">"La respuesta está en los datos."</div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.4;">
+                Analizo tus patrones de hábitos, sueño y productividad para optimizar tu rendimiento.
+            </div>
+            <button class="btn" style="margin-top:20px;">INICIAR SESIÓN DE COACHING</button>
+        </div>
+    </div>
+</div>
+
+<!-- FINANZAS SCREEN -->
+<div class="screen" id="s-finanzas">
+    <div class="home-hero">
+        <div class="home-title">ESTADO<br><span>FINANCIERO</span></div>
+    </div>
+    <div class="card">
+        <div class="card-title">OBJETIVO MENSUAL</div>
+        <div style="font-size:32px;font-family:'Bebas Neue';color:var(--white);">2.500 €</div>
+        <div class="progress-bar" style="margin-top:10px;"><div class="progress-fill" style="width:65%"></div></div>
+        <div style="text-align:right;font-size:11px;color:var(--muted);margin-top:4px;">65% COMPLETADO</div>
+    </div>
+    <div class="card">
+        <div class="card-title">REGISTRAR TRANSACCIÓN</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+            <button class="btn" style="background:var(--card2);color:var(--white);border:1px solid var(--border);">GASTO</button>
+            <button class="btn" style="background:var(--card2);color:var(--white);border:1px solid var(--border);">INGRESO</button>
+        </div>
+        <input type="number" placeholder="Cantidad (€)" style="width:100%;padding:12px;background:var(--bg);border:1px solid var(--border);color:var(--white);border-radius:8px;margin-bottom:10px;">
+        <input type="text" placeholder="Concepto" style="width:100%;padding:12px;background:var(--bg);border:1px solid var(--border);color:var(--white);border-radius:8px;margin-bottom:10px;">
+        <button class="btn">GUARDAR</button>
+    </div>
+</div>
+
+<!-- DIARIO SCREEN -->
+<div class="screen" id="s-diario">
+    <div class="home-hero">
+        <div class="home-title">DIARIO<br><span>PERSONAL</span></div>
+    </div>
+    <div class="card">
+        <div class="card-title">REFLEXIÓN DEL DÍA</div>
+        <textarea placeholder="¿Qué has aprendido hoy? ¿Cómo te sientes?" style="width:100%;height:150px;padding:12px;background:var(--bg);border:1px solid var(--border);color:var(--white);border-radius:8px;resize:none;font-family:'DM Sans';"></textarea>
+        <button class="btn">GUARDAR ENTRADA</button>
+    </div>
+</div>
+
+<!-- RUTINA SCREEN -->
+<div class="screen" id="s-rutina">
+    <div class="home-hero">
+        <div class="home-title">RUTINA<br><span>ESTRUCTURA</span></div>
+    </div>
+    <div class="card">
+        <div class="today-block"><div class="tb-hour">06:30</div><div><div class="badge b-gold">Familia</div><div class="tb-name">🐕 Perros + bebé</div></div></div>
+        <div class="today-block"><div class="tb-hour">08:30</div><div><div class="badge b-dark">Descanso</div><div class="tb-name">💤 A dormir (6.5h)</div></div></div>
+        <div class="today-block"><div class="tb-hour">15:00</div><div><div class="badge b-gold">Ritual</div><div class="tb-name">🔥 Despertar guerrero</div></div></div>
+        <div class="today-block"><div class="tb-hour">15:30</div><div><div class="badge b-gold">Trabajo</div><div class="tb-name">💻 Deep Work</div></div></div>
+        <div class="today-block"><div class="tb-hour">19:30</div><div><div class="badge b-dark">Familia</div><div class="tb-name">👨👩👧 Tiempo de calidad</div></div></div>
+        <div class="today-block"><div class="tb-hour">21:30</div><div><div class="badge b-dark">Noche</div><div class="tb-name">🌙 Turno de noche</div></div></div>
+    </div>
+</div>
+
+<!-- ROADMAP SCREEN -->
+<div class="screen" id="s-roadmap">
+    <div class="home-hero">
+        <div class="home-title">ROADMAP<br><span>VISIÓN</span></div>
+    </div>
+    <div class="card">
+        <div class="card-title">OBJETIVOS Q1 2026</div>
+        <div class="habit-item" onclick="toggleObj(this)">
+            <div class="hab-chk"></div>
+            <div class="hab-name">Lanzar MVP de SaaS</div>
+        </div>
+        <div class="habit-item" onclick="toggleObj(this)">
+            <div class="hab-chk"></div>
+            <div class="hab-name">Cartera de inversión +15%</div>
+        </div>
+        <div class="habit-item" onclick="toggleObj(this)">
+            <div class="hab-chk"></div>
+            <div class="hab-name">Leer 6 libros estratégicos</div>
+        </div>
+    </div>
+</div>
+
+<!-- DIGITAL SCREEN -->
+<div class="screen" id="s-digital">
+    <div class="home-hero">
+        <div class="home-title">AYUNO<br><span>DIGITAL</span></div>
+    </div>
+    <div class="card">
+        <div class="card-title">REGLAS</div>
+        <div class="today-block">
+            <div><div class="badge b-dark">REDES</div><div class="tb-desc">Cero scroll infinito. Solo publicar o responder mensajes directos de negocio.</div></div>
+        </div>
+        <div class="today-block">
+            <div><div class="badge b-dark">NOTIFICACIONES</div><div class="tb-desc">Todas desactivadas excepto llamadas de emergencia.</div></div>
+        </div>
+        <div class="today-block">
+            <div><div class="badge b-dark">OCIO</div><div class="tb-desc">Solo consumo intencional (película/serie en familia), nada de YouTube aleatorio.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- INTERIOR SCREEN -->
+<div class="screen" id="s-fe">
+    <div class="home-hero">
+        <div class="home-title">MUNDO<br><span>INTERIOR</span></div>
+    </div>
+    <div class="card">
+        <div class="card-title">PILARES</div>
+        <div class="habit-item" onclick="toggleSpirit(this)">
+            <div class="sp-chk"></div>
+            <div><div class="hab-name">Agradecimiento</div><div class="hab-desc">3 cosas por las que dar gracias hoy</div></div>
+        </div>
+        <div class="habit-item" onclick="toggleSpirit(this)">
+            <div class="sp-chk"></div>
+            <div><div class="hab-name">Visualización</div><div class="hab-desc">Sentir el éxito antes de que ocurra</div></div>
+        </div>
+        <div class="habit-item" onclick="toggleSpirit(this)">
+            <div class="sp-chk"></div>
+            <div><div class="hab-name">Silencio</div><div class="hab-desc">10 minutos de meditación/oración</div></div>
+        </div>
+    </div>
+</div>
+
 <!-- NAVIGATION -->
 <nav>
   <button class="nav-btn active" onclick="go('home',this)"><span class="nav-icon">🏠</span><span class="nav-lbl">Inicio</span></button>
